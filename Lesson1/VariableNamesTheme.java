@@ -1,5 +1,3 @@
-import java.lang.String;
-
 public class VariableNamesTheme {
     public static void main(String[] args) {
         System.out.println("1. Разные переменные");
@@ -93,8 +91,8 @@ public class VariableNamesTheme {
         System.out.println("Имя работника месяца = " + bestWorkerName);
 
         // Название электронной книги
-        String electronicBookName = "Чистый код";
-        System.out.println("Название электронной книги = " + electronicBookName);
+        final String eBookName = "Чистый код";
+        System.out.println("Название электронной книги = " + eBookName);
 
         // Размер
         int size = 23;
@@ -119,8 +117,8 @@ public class VariableNamesTheme {
         System.out.println("\n2. BOOLEAN-переменные");
 
         // Сотни равны?
-        boolean isEqualHundred = true;
-        System.out.println("Сотни равны = " + isEqualHundred);
+        boolean isEqualHundreds = true;
+        System.out.println("Сотни равны = " + isEqualHundreds);
 
         // Компьютер включен?
         boolean isTurnedOnComputer = true;
