@@ -91,7 +91,7 @@ public class VariableNamesTheme {
         System.out.println("Имя работника месяца = " + bestWorkerName);
 
         // Название электронной книги
-        final пString eBookName = "Чистый код";
+        final String eBookName = "Чистый код";
         System.out.println("Название электронной книги = " + eBookName);
 
         // Размер
