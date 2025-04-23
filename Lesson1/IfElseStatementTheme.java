@@ -56,8 +56,8 @@ public class IfElseStatementTheme {
         }
 
         System.out.println("\n4. Инвентаризация");
-        int dbSerialNum = 473;
-        int localNum = 563;
+        int dbSerialNum = 223;
+        int localNum = 23;
         int hundredsDbSerialNum = dbSerialNum / 100;
         int hundredsLocalNum = localNum / 100;
         int tensDbSerialNum = dbSerialNum / 10 % 10;
@@ -65,12 +65,29 @@ public class IfElseStatementTheme {
         int onesDbSerialNum = dbSerialNum % 10;
         int onesLocalNum = localNum % 10;
         if (dbSerialNum == localNum) {
-            System.out.println("[№ " + localNum + " ]: компьютер на 3-м этаже в кабинете 2");
-        } else if ((hundredsDbSerialNum == hundredsLocalNum) || (tensDbSerialNum == tensLocalNum) || 
+            System.out.println("[№" + localNum + "]: компьютер на 3-м этаже в кабинете 2");
+        } else if ((hundredsDbSerialNum == hundredsLocalNum) || (tensDbSerialNum == tensLocalNum) ||
                 (onesDbSerialNum == onesLocalNum)) {
             System.out.println("Нет полного совпадения:");
             System.out.println("База данных: [№" + dbSerialNum + "]");
-            System.out.println("Фактический: [№" + localNum + "]");
+            if (hundredsDbSerialNum != hundredsLocalNum) {
+                hundredsLocalNum = '_';
+            } else if (tensDbSerialNum != tensLocalNum) {
+                tensLocalNum = '_';
+            } else if (onesDbSerialNum != onesLocalNum) {
+                onesLocalNum = '_';
+            } else if ((hundredsDbSerialNum != hundredsLocalNum) && (tensDbSerialNum != tensLocalNum)) {
+                hundredsLocalNum = '_';
+                tensLocalNum = '_';
+            } else if ((hundredsDbSerialNum != hundredsLocalNum) && (onesDbSerialNum != onesLocalNum)) {
+                hundredsLocalNum = '_';
+                onesLocalNum = '_';
+            } else {
+                tensLocalNum = '_';
+                onesLocalNum = '_';
+            } 
+            System.out.println("Фактический: [№" + (char) hundredsLocalNum + tensLocalNum + 
+                    onesLocalNum + "]");
         } else {
             System.out.println("[№" + localNum + "]: оборудование не идентифицировано");
         }
@@ -101,77 +118,70 @@ public class IfElseStatementTheme {
         }
 
         System.out.println("\n6. Подсчёт начисленных банком %");
-        float baseSum = 321123.79f;
-        System.out.println("Сумма вклада = " + baseSum);
-        int rate = 0;
-        if (baseSum < 100000) {
+        float deposit = 321123.79f;
+        int rate = 10;
+        if (deposit < 100000) {
             rate = 5;
-        } else if ((baseSum >= 100000) && (baseSum < 300000)) {
+        } else if ((deposit >= 100000) && (deposit < 300000)) {
             rate = 7;
-        } else if (baseSum >= 300000) {
-            rate = 10;
         }
-        float profit;
-        float finalSum;
-        profit = baseSum * rate / 100;
+        float profit = deposit * rate / 100;
+        float finalSum = deposit + profit;
+        System.out.println("Сумма вклада = " + deposit);
         System.out.println("Сумма начисленного % = " + profit);
-        finalSum = baseSum + profit;
         System.out.println("Итоговая сумма с % = " + finalSum);
 
-        var baseSumBd = new BigDecimal("321123.79");
-        System.out.println("\nСумма вклада = " + baseSumBd);
-        if (baseSumBd.compareTo(BigDecimal.valueOf(100000)) < 0) {
+        var depositBd = new BigDecimal("321123.79");
+        System.out.println("\nСумма вклада = " + depositBd);
+        if (depositBd.compareTo(BigDecimal.valueOf(100000)) < 0) {
             var rateBd = new BigDecimal("0.05");
-            var profitBd = baseSumBd.multiply(rateBd).setScale(2, RoundingMode.HALF_UP);
+            var profitBd = depositBd.multiply(rateBd).setScale(2, RoundingMode.HALF_UP);
             System.out.println("Сумма начисленного % = " + profitBd);
-            var finalSumBd = baseSumBd.add(profitBd).setScale(2, RoundingMode.HALF_UP);
+            var finalSumBd = depositBd.add(profitBd).setScale(2, RoundingMode.HALF_UP);
             System.out.println("Итоговая сумма с % = " + finalSumBd);
-        } else if ((baseSumBd.compareTo(BigDecimal.valueOf(100000)) >= 0) && 
-                (baseSumBd.compareTo(BigDecimal.valueOf(300000)) < 0)) {
+        } else if ((depositBd.compareTo(BigDecimal.valueOf(100000)) >= 0) && 
+                (depositBd.compareTo(BigDecimal.valueOf(300000)) < 0)) {
             var rateBd = new BigDecimal("0.07");
-            var profitBd = baseSumBd.multiply(rateBd).setScale(2, RoundingMode.HALF_UP);
+            var profitBd = depositBd.multiply(rateBd).setScale(2, RoundingMode.HALF_UP);
             System.out.println("Сумма начисленного % = " + profitBd);
-            var finalSumBd = baseSumBd.add(profitBd).setScale(2, RoundingMode.HALF_UP);
+            var finalSumBd = depositBd.add(profitBd).setScale(2, RoundingMode.HALF_UP);
             System.out.println("Итоговая сумма с % = " + finalSumBd);
-        } else if (baseSumBd.compareTo(BigDecimal.valueOf(300000)) >= 0) {
+        } else {
             var rateBd = new BigDecimal("0.1");
-            var profitBd = baseSumBd.multiply(rateBd).setScale(2, RoundingMode.HALF_UP);
+            var profitBd = depositBd.multiply(rateBd).setScale(2, RoundingMode.HALF_UP);
             System.out.println("Сумма начисленного % = " + profitBd);
-            var finalSumBd = baseSumBd.add(profitBd).setScale(2, RoundingMode.HALF_UP);
+            var finalSumBd = depositBd.add(profitBd).setScale(2, RoundingMode.HALF_UP);
             System.out.println("Итоговая сумма с % = " + finalSumBd);
         }
 
         System.out.println("\n7. Определение оценки по предметам");
-        int historyRate = 59;
-        int historyGrade = 0;
-        if (historyRate <= 60) {
-            historyGrade = 2;
-        } else if ((historyRate > 60) && (historyRate <= 73)) {
+        int historyPercent = 59;
+        int historyGrade = 2;
+        if ((historyPercent > 60) && (historyPercent <= 73)) {
             historyGrade = 3;
-        } else if ((historyRate > 73) && (historyRate <= 91)) {
+        } else if ((historyPercent > 73) && (historyPercent <= 91)) {
             historyGrade = 4;
-        } else if (historyRate > 91) {
+        } else if (historyPercent > 91) {
             historyGrade = 5;
         }
-        System.out.println("История - " + historyGrade);
 
-        int csRate = 92;
-        int csGrade = 0;
-        if (csRate <= 60) {
-            csGrade = 2;
-        } else if ((csRate > 60) && (csRate <= 73)) {
+        int csPercent = 92;
+        int csGrade = 2;
+        if ((csPercent > 60) && (csPercent <= 73)) {
             csGrade = 3;
-        } else if ((csRate > 73) && (csRate <= 91)) {
+        } else if ((csPercent > 73) && (csPercent <= 91)) {
             csGrade = 4;
-        } else if (csRate > 91) {
+        } else if (csPercent > 91) {
             csGrade = 5;
         }
+
+        System.out.println("История - " + historyGrade);
         System.out.println("Программирование - " + csGrade);
 
         double averageGrade = (double) (historyGrade + csGrade) / 2;
         System.out.println("Средний балл оценок по предметам = " + averageGrade);
-        double averageRate = (double) (historyRate + csRate) / 2;
-        System.out.println("Средний % по предметам = " + averageRate);
+        double averagePercent = (double) (historyPercent + csPercent) / 2;
+        System.out.println("Средний % по предметам = " + averagePercent);
 
         System.out.println("\n8. Расчёт годовой прибыли");
         var monthSale = new BigDecimal("13025.233");
@@ -185,7 +195,7 @@ public class IfElseStatementTheme {
             System.out.println("Прибыль за год: +" + annualProfit + " руб.");
         } else if (annualProfit.compareTo(BigDecimal.ZERO) < 0) {
             System.out.println("Прибыль за год: " + annualProfit + " руб.");
-        } else if (annualProfit.compareTo(BigDecimal.ZERO) == 0) {
+        } else {
             System.out.println("Прибыль за год: " + annualProfit + " руб.");
         }
     }
