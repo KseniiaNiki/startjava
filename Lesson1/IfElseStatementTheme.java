@@ -69,25 +69,11 @@ public class IfElseStatementTheme {
         } else if ((hundredsDbSerialNum == hundredsLocalNum) || (tensDbSerialNum == tensLocalNum) ||
                 (onesDbSerialNum == onesLocalNum)) {
             System.out.println("Нет полного совпадения:");
-            System.out.println("База данных: [№" + dbSerialNum + "]");
-            if (hundredsDbSerialNum != hundredsLocalNum) {
-                hundredsLocalNum = '_';
-            } else if (tensDbSerialNum != tensLocalNum) {
-                tensLocalNum = '_';
-            } else if (onesDbSerialNum != onesLocalNum) {
-                onesLocalNum = '_';
-            } else if ((hundredsDbSerialNum != hundredsLocalNum) && (tensDbSerialNum != tensLocalNum)) {
-                hundredsLocalNum = '_';
-                tensLocalNum = '_';
-            } else if ((hundredsDbSerialNum != hundredsLocalNum) && (onesDbSerialNum != onesLocalNum)) {
-                hundredsLocalNum = '_';
-                onesLocalNum = '_';
-            } else {
-                tensLocalNum = '_';
-                onesLocalNum = '_';
-            } 
-            System.out.println("Фактический: [№" + (char) hundredsLocalNum + tensLocalNum + 
-                    onesLocalNum + "]");
+            System.out.print("База данных: [№");
+            System.out.print(hundredsDbSerialNum == hundredsLocalNum ? hundredsLocalNum : "_");
+            System.out.print(tensDbSerialNum == tensLocalNum ? tensLocalNum : "_");
+            System.out.print(onesDbSerialNum == onesLocalNum ? onesLocalNum : "_");
+            System.out.println("]");
         } else {
             System.out.println("[№" + localNum + "]: оборудование не идентифицировано");
         }
@@ -132,27 +118,18 @@ public class IfElseStatementTheme {
         System.out.println("Итоговая сумма с % = " + finalSum);
 
         var depositBd = new BigDecimal("321123.79");
-        System.out.println("\nСумма вклада = " + depositBd);
+        var rateBd = new BigDecimal("0.1");
         if (depositBd.compareTo(BigDecimal.valueOf(100000)) < 0) {
             var rateBd = new BigDecimal("0.05");
-            var profitBd = depositBd.multiply(rateBd).setScale(2, RoundingMode.HALF_UP);
-            System.out.println("Сумма начисленного % = " + profitBd);
-            var finalSumBd = depositBd.add(profitBd).setScale(2, RoundingMode.HALF_UP);
-            System.out.println("Итоговая сумма с % = " + finalSumBd);
         } else if ((depositBd.compareTo(BigDecimal.valueOf(100000)) >= 0) && 
                 (depositBd.compareTo(BigDecimal.valueOf(300000)) < 0)) {
             var rateBd = new BigDecimal("0.07");
-            var profitBd = depositBd.multiply(rateBd).setScale(2, RoundingMode.HALF_UP);
-            System.out.println("Сумма начисленного % = " + profitBd);
-            var finalSumBd = depositBd.add(profitBd).setScale(2, RoundingMode.HALF_UP);
-            System.out.println("Итоговая сумма с % = " + finalSumBd);
-        } else {
-            var rateBd = new BigDecimal("0.1");
-            var profitBd = depositBd.multiply(rateBd).setScale(2, RoundingMode.HALF_UP);
-            System.out.println("Сумма начисленного % = " + profitBd);
-            var finalSumBd = depositBd.add(profitBd).setScale(2, RoundingMode.HALF_UP);
-            System.out.println("Итоговая сумма с % = " + finalSumBd);
         }
+        var profitBd = depositBd.multiply(rateBd).setScale(2, RoundingMode.HALF_UP);
+        var finalSumBd = depositBd.add(profitBd).setScale(2, RoundingMode.HALF_UP);
+        System.out.println("\nСумма вклада = " + depositBd);
+        System.out.println("Сумма начисленного % = " + profitBd);
+        System.out.println("Итоговая сумма с % = " + finalSumBd);
 
         System.out.println("\n7. Определение оценки по предметам");
         int historyPercent = 59;
@@ -194,8 +171,6 @@ public class IfElseStatementTheme {
         if (annualProfit.compareTo(BigDecimal.ZERO) > 0) {
             System.out.println("Прибыль за год: +" + annualProfit + " руб.");
         } else if (annualProfit.compareTo(BigDecimal.ZERO) < 0) {
-            System.out.println("Прибыль за год: " + annualProfit + " руб.");
-        } else {
             System.out.println("Прибыль за год: " + annualProfit + " руб.");
         }
     }
