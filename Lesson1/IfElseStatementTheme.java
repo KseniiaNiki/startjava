@@ -69,7 +69,8 @@ public class IfElseStatementTheme {
         } else if ((hundredsDbSerialNum == hundredsLocalNum) || (tensDbSerialNum == tensLocalNum) ||
                 (onesDbSerialNum == onesLocalNum)) {
             System.out.println("Нет полного совпадения:");
-            System.out.print("База данных: [№");
+            System.out.println("База данных: [№" + dbSerialNum + "]");
+            System.out.print("Фактический: [№");
             System.out.print(hundredsDbSerialNum == hundredsLocalNum ? hundredsLocalNum : "_");
             System.out.print(tensDbSerialNum == tensLocalNum ? tensLocalNum : "_");
             System.out.print(onesDbSerialNum == onesLocalNum ? onesLocalNum : "_");
@@ -120,10 +121,10 @@ public class IfElseStatementTheme {
         var depositBd = new BigDecimal("321123.79");
         var rateBd = new BigDecimal("0.1");
         if (depositBd.compareTo(BigDecimal.valueOf(100000)) < 0) {
-            var rateBd = new BigDecimal("0.05");
+            rateBd = new BigDecimal("0.5");
         } else if ((depositBd.compareTo(BigDecimal.valueOf(100000)) >= 0) && 
                 (depositBd.compareTo(BigDecimal.valueOf(300000)) < 0)) {
-            var rateBd = new BigDecimal("0.07");
+            rateBd = new BigDecimal("0.7");
         }
         var profitBd = depositBd.multiply(rateBd).setScale(2, RoundingMode.HALF_UP);
         var finalSumBd = depositBd.add(profitBd).setScale(2, RoundingMode.HALF_UP);
@@ -170,7 +171,7 @@ public class IfElseStatementTheme {
                 .setScale(3, RoundingMode.HALF_UP);
         if (annualProfit.compareTo(BigDecimal.ZERO) > 0) {
             System.out.println("Прибыль за год: +" + annualProfit + " руб.");
-        } else if (annualProfit.compareTo(BigDecimal.ZERO) < 0) {
+        } else {
             System.out.println("Прибыль за год: " + annualProfit + " руб.");
         }
     }
