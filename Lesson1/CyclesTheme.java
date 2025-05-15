@@ -69,15 +69,15 @@ public class CyclesTheme {
         int initialNumber2 = 5;
         int initialNumber3 = -1;
         int max = initialNumber1;
-        if ((initialNumber2 > initialNumber1) && (initialNumber2 > initialNumber3)) {
+        int min = initialNumber2;
+        if (initialNumber2 > initialNumber1) {
             max = initialNumber2;
-        } else if ((initialNumber3 > initialNumber1) && (initialNumber3 > initialNumber2)) {
+            min = initialNumber1;
+        }
+        if (initialNumber3 > max) {
             max = initialNumber3;
         }
-        int min = initialNumber2;
-       if ((initialNumber1 < initialNumber2) && (initialNumber1 < initialNumber3)) {
-            min = initialNumber1;
-        } else if ((initialNumber3 < initialNumber1) && (initialNumber3 < initialNumber2)) {
+        if (initialNumber3 < min) {
             min = initialNumber3;
         }
         System.out.println("Все числа в порядке убывания в интервале (" + 
@@ -132,17 +132,17 @@ public class CyclesTheme {
         boolean hasSmallLetters = false;
         boolean hasCapitalLetters = false;
         for (int i = 0; i < 8; i++) {
-            int symbol = randomGenerator.nextInt(maxValue - minValue + 1) + minValue;
+            int symbol = randomGenerator.nextInt(minValue, maxValue + 1);
             password += (char) symbol;
-                if (Character.isDigit(symbol)) {
-                    hasDigits = true;
-                } else if (Character.isLowerCase(symbol)) {
-                    hasSmallLetters = true;
-                } else if (Character.isUpperCase(symbol)) {
-                    hasCapitalLetters = true;
-                } else {
-                    hasSpecialSymbols = true;
-                }
+            if (Character.isDigit(symbol)) {
+                hasDigits = true;
+            } else if (Character.isLowerCase(symbol)) {
+                hasSmallLetters = true;
+            } else if (Character.isUpperCase(symbol)) {
+                hasCapitalLetters = true;
+            } else {
+                hasSpecialSymbols = true;
+            }
         }
         System.out.println("Пароль: " + password);
 
