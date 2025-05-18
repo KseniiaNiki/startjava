@@ -5,21 +5,19 @@ public class MyFirstGame {
     public static void main(String[] args) {
         int minValue = 1;
         int maxValue = 100;
-        Random randomGenerator = new Random();
-        int randomNumber = randomGenerator.nextInt(minValue, maxValue + 1);
+        Random random = new Random();
+        int randomNumber = random.nextInt(minValue, maxValue + 1);
         Scanner scanner = new Scanner(System.in);
-        int userNumber = 0;
-        while (userNumber != randomNumber) {
-            System.out.println("Угадайте целое число в отрезке [1, 100]: ");
-            userNumber = scanner.nextInt();
-            if (userNumber > randomNumber) {
-                System.out.println(userNumber + " больше того, что загадал компьютер");
-            } else {
-                System.out.println(userNumber + " меньше того, что загадал компьютер");
+        int playerNumber = 0;
+        while (playerNumber != randomNumber) {
+            System.out.println("Угадайте целое число в отрезке [" + minValue + ", " + maxValue + "]: ");
+            playerNumber = scanner.nextInt();
+            if (playerNumber > randomNumber) {
+                System.out.println(playerNumber + " больше того, что загадал компьютер");
+            } else if (playerNumber < randomNumber) {
+                System.out.println(playerNumber + " меньше того, что загадал компьютер");
             }
         }
-        if (userNumber == randomNumber) {
-            System.out.println("Вы победили!");
-        }
+        System.out.println("Вы победили!");
     }
 }
