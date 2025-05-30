@@ -10,14 +10,14 @@ public class CalculatorTest {
             calculatorOne.setNumber1(scanner.nextInt());
             scanner.nextLine();
             System.out.print("Введите знак математической операции (+, -, *, /, ^, %): ");
-            calculatorOne.setMathOperationSign(scanner.nextLine().charAt(0));
+            calculatorOne.setMathOperation(scanner.nextLine().charAt(0));
             System.out.print("Введите второе число: ");
             calculatorOne.setNumber2(scanner.nextInt());
             scanner.nextLine();
             calculatorOne.calculate();
             System.out.print("Хотите продолжить вычисления? [yes/no]: ");
             answer = scanner.nextLine();
-            while ((!answer.equals("no")) && (!answer.equals("yes"))) {
+            while (!answer.equals("no") && !answer.equals("yes")) {
                 System.out.print("Хотите продолжить вычисления? [yes/no]: ");
                 answer = scanner.nextLine();
             }

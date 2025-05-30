@@ -1,7 +1,7 @@
 public class Calculator {
     private int number1;
     private int number2;
-    private char mathOperationSign;
+    private char mathOperation;
 
     public void setNumber1(int number1) {
         this.number1 = number1;
@@ -11,13 +11,13 @@ public class Calculator {
         this.number2 = number2;
     }
 
-    public void setMathOperationSign(char mathOperationSign) {
-        this.mathOperationSign = mathOperationSign;
+    public void setMathOperation(char mathOperation) {
+        this.mathOperation = mathOperation;
     }
 
     public void calculate() {
         double result = 1.0;
-        switch (mathOperationSign) {
+        switch (mathOperation) {
             case '+':
                 result = number1 + number2;
                 break;
@@ -30,6 +30,7 @@ public class Calculator {
             case '/':
                 if (number2 == 0) {
                     System.out.println("Ошибка: деление на ноль запрещено");
+                    return;
                 }
                 result = number1 / number2;
                 break;
@@ -43,12 +44,16 @@ public class Calculator {
                 }
                 break;
             case '%':
+                if (number2 == 0) {
+                    System.out.println("Ошибка: деление на ноль запрещено");
+                    return;
+                }
                 result = number1 % number2;
                 break;
             default:
-                System.out.println("Ошибка: операция '" + mathOperationSign + "' не поддерживается");
+                System.out.println("Ошибка: операция '" + mathOperation + "' не поддерживается");
                 return;
         }
-        System.out.println(number1 + " " + mathOperationSign + " " + number2 + " = " + result);
+        System.out.println(number1 + " " + mathOperation + " " + number2 + " = " + result);
     }
 }
