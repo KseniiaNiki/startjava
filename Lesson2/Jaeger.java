@@ -2,12 +2,12 @@ public class Jaeger {
     private String modelName;
     private String mark;
     private String origin;
+    private String bodyLanguage;
     private double height;
     private double weight;
     private int speed;
     private int strength;
     private int armor;
-    private String bodyLanguage;
 
     public Jaeger() {
     }
@@ -37,6 +37,10 @@ public class Jaeger {
         this.origin = origin;
     }
 
+    public void setBodyLanguage(String bodyLanguage) {
+        this.bodyLanguage = bodyLanguage;
+    }
+
     public void setHeight(double height) {
         this.height = height;
     }
@@ -57,16 +61,12 @@ public class Jaeger {
         this.armor = armor;
     }
 
-    public void setBodyLanguage(String bodyLanguage) {
-        this.bodyLanguage = bodyLanguage;
-    }
-
-    public void presentation() {
-        System.out.println("Робот " + modelName + " имеет следующие характеристики: ");
-        System.out.println("марка - " + mark + ", происхождение - " + origin + 
+    @Override
+    public String toString() {
+        return "Робот " + modelName + " имеет следующие характеристики: " + "\n" + 
+                "марка - " + mark + ", происхождение - " + origin + 
                 ", высота - " + height + " метра(ов), вес - " + weight + 
-                " тонн, скорость - " + speed + ", сила - " + strength + 
-                ", бронь - " + armor + ", язык тела - " + bodyLanguage);
+                ", бронь - " + armor + ", язык тела - " + bodyLanguage;
     }
 
     public void drift() {

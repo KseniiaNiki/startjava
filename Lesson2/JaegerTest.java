@@ -10,7 +10,7 @@ public class JaegerTest {
         jaegerOne.setStrength(8);
         jaegerOne.setArmor(6);
         jaegerOne.setBodyLanguage("Muay Thai triplet");
-        jaegerOne.presentation();
+        System.out.println(jaegerOne.toString());
         jaegerOne.drift();
         jaegerOne.move();
         System.out.println(jaegerOne.scanKaiju());
@@ -18,7 +18,7 @@ public class JaegerTest {
 
         Jaeger jaegerTwo = new Jaeger("Gipsy Danger", "Mark-3", "США", 
                 79.25, 1980, 7, 8, 6, "Street Fighter");
-        jaegerTwo.presentation();
+        System.out.println(jaegerTwo.toString());
         jaegerTwo.drift();
         jaegerTwo.move();
         System.out.println(jaegerTwo.scanKaiju());
