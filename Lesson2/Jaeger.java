@@ -61,14 +61,6 @@ public class Jaeger {
         this.armor = armor;
     }
 
-    @Override
-    public String toString() {
-        return "Робот " + modelName + " имеет следующие характеристики: " + "\n" + 
-                "марка - " + mark + ", происхождение - " + origin + 
-                ", высота - " + height + " метра(ов), вес - " + weight + 
-                ", бронь - " + armor + ", язык тела - " + bodyLanguage;
-    }
-
     public void drift() {
         System.out.println("Нейронная синхронизация");
     }
@@ -83,5 +75,13 @@ public class Jaeger {
 
     public void usePlasmacaster() {
         System.out.println("Plasmacaster активирован");
+    }
+
+    @Override
+    public String toString() {
+        return "Робот " + modelName + " имеет следующие характеристики: " + "\n" + 
+                "марка - " + mark + ", происхождение - " + origin + 
+                ", высота - " + height + " метра(ов), вес - " + weight + 
+                ", бронь - " + armor + ", язык тела - " + bodyLanguage;
     }
 }
