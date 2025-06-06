@@ -11,11 +11,11 @@ public class GuessNumber {
         this.playerTwo = playerTwo;
     }
 
-    public void guessNumber() {
+    public void start() {
         Scanner scanner = new Scanner(System.in);
         int randomNumber = (int) (Math.random() * (maxValue - minValue + 1)) + minValue;
         System.out.println("Угадайте целое число в отрезке [" + minValue + ", " + maxValue + "]: ");
-        while ((playerOne.getNumber() != randomNumber) || (playerTwo.getNumber() != randomNumber)) {
+        while (true) {
             System.out.print("Ход игрока " + playerOne.getName() + ": ");
             playerOne.setNumber(scanner.nextInt());
             if (playerOne.getNumber() != randomNumber) {
@@ -24,6 +24,7 @@ public class GuessNumber {
                         : "меньше того, что загадал компьютер"));
                 System.out.println("Передача хода другому игроку");
             } else {
+                System.out.println("Победил игрок " + playerOne.getName() + "!");
                 break;
             }
             System.out.print("Ход игрока " + playerTwo.getName() + ": ");
@@ -34,13 +35,9 @@ public class GuessNumber {
                         : "меньше того, что загадал компьютер"));
                 System.out.println("Передача хода другому игроку");
             } else {
+                System.out.println("Победил игрок " + playerTwo.getName() + "!");
                 break;
             }
-        }
-        if (playerOne.getNumber() == randomNumber) {
-            System.out.println("Победил игрок " + playerOne.getName() + "!");
-        } else {
-            System.out.println("Победил игрок " + playerTwo.getName() + "!");
         }
     }
 }

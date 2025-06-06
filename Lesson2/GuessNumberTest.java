@@ -8,10 +8,10 @@ public class GuessNumberTest {
         System.out.print("Введите имя второго игрока: ");
         Player playerTwo = new Player(scanner.nextLine());
 
-        GuessNumber guessNumberOne = new GuessNumber(playerOne, playerTwo);
+        GuessNumber game = new GuessNumber(playerOne, playerTwo);
         String answer = "yes";
         while (answer.equals("yes")) {
-            guessNumberOne.guessNumber();
+            game.start();
             System.out.print("Хотите продолжить вычисления? [yes/no]: ");
             answer = scanner.nextLine();
             while (!answer.equals("no") && !answer.equals("yes")) {
