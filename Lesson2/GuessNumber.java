@@ -18,25 +18,27 @@ public class GuessNumber {
         while (true) {
             System.out.print("Ход игрока " + playerOne.getName() + ": ");
             playerOne.setNumber(scanner.nextInt());
+            if (playerOne.getNumber() == randomNumber) {
+                System.out.println("Победил игрок " + playerOne.getName() + "!");
+                break;
+            }
             if (playerOne.getNumber() != randomNumber) {
                 System.out.println("Ваше число " + ((playerOne.getNumber() > randomNumber)
                         ? "больше того, что загадал компьютер"
                         : "меньше того, что загадал компьютер"));
                 System.out.println("Передача хода другому игроку");
-            } else {
-                System.out.println("Победил игрок " + playerOne.getName() + "!");
-                break;
             }
             System.out.print("Ход игрока " + playerTwo.getName() + ": ");
             playerTwo.setNumber(scanner.nextInt());
+            if (playerTwo.getNumber() == randomNumber) {
+                System.out.println("Победил игрок " + playerTwo.getName() + "!");
+                break;
+            }
             if (playerTwo.getNumber() != randomNumber) {
                 System.out.println("Ваше число " + ((playerTwo.getNumber() > randomNumber)
                         ? "больше того, что загадал компьютер"
                         : "меньше того, что загадал компьютер"));
                 System.out.println("Передача хода другому игроку");
-            } else {
-                System.out.println("Победил игрок " + playerTwo.getName() + "!");
-                break;
             }
         }
     }
