@@ -1,40 +1,39 @@
 public class MethodsTest {
     public static void main(String[] args) {
-        invokeBooleanMethods();
-        invokeNotBooleanMethods();
-        System.out.println("\n" + StaticMethod.getCurrentMethodName());
+        doBooleanMethods();
+        doNonBooleanMethods();
     }
 
-    public static void invokeBooleanMethods() {
-        BooleanMethods booleanMethodsOne = new BooleanMethods();
+    public static void doBooleanMethods() {
+        BooleanMethods bm = new BooleanMethods();
         System.out.println("Вызов boolean-методов:");
-        System.out.println(booleanMethodsOne.shouldStopProgram());
-        System.out.println(booleanMethodsOne.hasUniqueDigit());
-        System.out.println(booleanMethodsOne.isLetter());
-        System.out.println(booleanMethodsOne.hasEqualDigits());
-        System.out.println(booleanMethodsOne.hasAttempts());
-        System.out.println(booleanMethodsOne.isEmpty());
-        System.out.println(booleanMethodsOne.isEvenNumber());
-        System.out.println(booleanMethodsOne.isValidPath());
-        System.out.println(booleanMethodsOne.isExistFile() + "\n");
+        System.out.println(bm.shouldStopProgram());
+        System.out.println(bm.hasUniqueDigit());
+        System.out.println(bm.isLetter());
+        System.out.println(bm.hasEqualDigits());
+        System.out.println(bm.hasAttempts());
+        System.out.println(bm.isEmpty());
+        System.out.println(bm.isEvenNumber());
+        System.out.println(bm.isValidPath());
+        System.out.println(bm.isExistFile() + "\n");
     }
 
-    public static void invokeNotBooleanMethods() {
-        NotBooleanMethods notBooleanMethodsOne = new NotBooleanMethods();
+    public static void doNonBooleanMethods() {
+        NonBooleanMethods nonBm = new NonBooleanMethods();
         System.out.println("Вызов не boolean-методов:");
-        notBooleanMethodsOne.findLongestWord();
-        notBooleanMethodsOne.chooseMenuItem();
-        notBooleanMethodsOne.calculateGradesAverageValue();
-        notBooleanMethodsOne.countUniqueWordsAmount();
-        notBooleanMethodsOne.displayErrorMessage();
-        notBooleanMethodsOne.synchronizeData();
-        notBooleanMethodsOne.recoverData();
-        notBooleanMethodsOne.pauseDownload();
-        notBooleanMethodsOne.resetSettings();
-        notBooleanMethodsOne.writeContentsToFile();
-        notBooleanMethodsOne.convertTemperature();
-        notBooleanMethodsOne.enterMathExpression();
-        notBooleanMethodsOne.identifyWinner();
-        notBooleanMethodsOne.findBook();
+        nonBm.findLongestWord();
+        nonBm.chooseMenuItem();
+        nonBm.calcAverageGrades();
+        nonBm.countUniqueWords();
+        nonBm.displayErrorMessage();
+        nonBm.synchronizeData();
+        nonBm.recoverData();
+        nonBm.pauseDownload();
+        nonBm.resetSettings();
+        nonBm.writeToFile();
+        nonBm.convertTemperature();
+        nonBm.enterMathExpression();
+        nonBm.identifyWinner();
+        nonBm.findBookByWriterName();
     }
 }
