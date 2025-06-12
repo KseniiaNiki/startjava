@@ -22,24 +22,20 @@ public class GuessNumber {
                 System.out.println("Победил игрок " + playerOne.getName() + "!");
                 break;
             }
-            if (playerOne.getNumber() != randomNumber) {
-                System.out.println("Ваше число " + ((playerOne.getNumber() > randomNumber)
-                        ? "больше того, что загадал компьютер"
-                        : "меньше того, что загадал компьютер"));
-                System.out.println("Передача хода другому игроку");
-            }
+            System.out.println("Ваше число " + ((playerOne.getNumber() > randomNumber)
+                    ? "больше того, что загадал компьютер"
+                    : "меньше того, что загадал компьютер"));
+            System.out.println("Передача хода другому игроку");
             System.out.print("Ход игрока " + playerTwo.getName() + ": ");
             playerTwo.setNumber(scanner.nextInt());
             if (playerTwo.getNumber() == randomNumber) {
                 System.out.println("Победил игрок " + playerTwo.getName() + "!");
                 break;
             }
-            if (playerTwo.getNumber() != randomNumber) {
-                System.out.println("Ваше число " + ((playerTwo.getNumber() > randomNumber)
-                        ? "больше того, что загадал компьютер"
-                        : "меньше того, что загадал компьютер"));
-                System.out.println("Передача хода другому игроку");
-            }
+            System.out.println("Ваше число " + ((playerTwo.getNumber() > randomNumber)
+                    ? "больше того, что загадал компьютер"
+                    : "меньше того, что загадал компьютер"));
+            System.out.println("Передача хода другому игроку");
         }
     }
 }
