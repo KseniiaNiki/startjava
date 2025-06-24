@@ -1,3 +1,5 @@
+package ru.topjava.startjava.lesson_1.base;
+
 import java.util.Random;
 
 public class CyclesTheme {

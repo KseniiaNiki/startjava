@@ -1,3 +1,5 @@
+package ru.topjava.startjava.lesson_2_3.method.naming;
+
 public class BooleanMethods {
     public boolean shouldStopProgram() {
         System.out.print(MethodUtils.getCurrentMethodName() + 

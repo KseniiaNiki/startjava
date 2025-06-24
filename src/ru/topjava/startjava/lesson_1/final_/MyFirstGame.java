@@ -1,3 +1,5 @@
+package ru.topjava.startjava.lesson_1.final_;
+
 import java.util.Random;
 import java.util.Scanner;
 

@@ -1,4 +1,5 @@
-// package ru.topjava.lesson1;
+package ru.topjava.startjava.lesson_1.final_;
+
 import java.util.Random;
 
 // Игра Камень-Ножницы-Бумага
