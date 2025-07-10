@@ -1,4 +1,4 @@
-package ru.topjava.startjava.lesson_2_3.method.naming;
+package ru.topjava.startjava.lesson_2_3_4.method.naming;
 
 public class MethodUtils {
     public static String getCurrentMethodName() {
