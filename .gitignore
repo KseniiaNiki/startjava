@@ -2,9 +2,5 @@
 out/
 options
 optionsj
-/.idea/workspace.xml
-/.idea/checkstyle-idea.xml
-/.idea/misc.xml
-/.idea/modules.xml
 /TopJava.iml
-/.idea/vcs.xml
+.idea/
