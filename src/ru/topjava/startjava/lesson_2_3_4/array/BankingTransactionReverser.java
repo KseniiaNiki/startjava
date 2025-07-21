@@ -6,23 +6,23 @@ public class BankingTransactionReverser {
     public static void main(String[] args) {
         int[] transactions = new int[] {};
         int[] reversed = reverse(transactions);
-        showResult(transactions, reversed);
+        showTransactions(transactions, reversed);
 
         transactions = null;
         reversed = reverse(transactions);
-        showResult(transactions, reversed);
+        showTransactions(transactions, reversed);
 
         transactions = new int[] {5};
         reversed = reverse(transactions);
-        showResult(transactions, reversed);
+        showTransactions(transactions, reversed);
 
         transactions = new int[] {6, 8, 9, 1};
         reversed = reverse(transactions);
-        showResult(transactions, reversed);
+        showTransactions(transactions, reversed);
 
         transactions = new int[] {13, 8, 5, 3, 2, 1, 1};
         reversed = reverse(transactions);
-        showResult(transactions, reversed);
+        showTransactions(transactions, reversed);
     }
 
     private static int[] reverse(int[] transactions) {
@@ -32,13 +32,15 @@ public class BankingTransactionReverser {
 
         int[] reversed = Arrays.copyOf(transactions, transactions.length);
         int length = reversed.length;
-        for (int t : reversed) {
-            transactions[(length--) - 1] = t;
+        for (int i = 0; i < length / 2; i++) {
+            int halfArray = reversed[i];
+            reversed[i] = reversed[--length - i];
+            reversed[--length - i] = halfArray;
         }
         return reversed;
     }
 
-    private static void showResult(int[] transactions, int[] reversed) {
+    private static void showTransactions(int[] transactions, int[] reversed) {
         if (transactions == null) {
             System.out.println("Ошибка в получении данных(никакой информации не получено)");
             return;
