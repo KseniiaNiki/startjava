@@ -32,10 +32,8 @@ public class BankingTransactionReverser {
 
         int[] reversed = Arrays.copyOf(transactions, transactions.length);
         int length = reversed.length;
-        for (int i = 0; i < length / 2; i++) {
-            int halfArray = reversed[i];
-            reversed[i] = reversed[--length - i];
-            reversed[--length - i] = halfArray;
+        for (int r : transactions) {
+            reversed[--length] = r;
         }
         return reversed;
     }
