@@ -8,31 +8,27 @@ public class HackingImitation {
     private static final String GREEN = "\033[0;32m";
 
     public static void main(String[] args) throws InterruptedException {
-        int randomNumber = hack();
-        giveAccess(randomNumber);
+        int hackingResult = hack();
+        giveAccess(hackingResult);
     }
 
-    public static int hack() throws InterruptedException {
+    private static int hack() throws InterruptedException {
         char[] spins = {'-', '\\', '|', '/'};
         int length = spins.length;
-        for (int i = 0, j = 0; j < length * 3; i++, j++) {
-            if (i == length) {
-                i = 0;
-            }
-            System.out.print("Hacking: " + spins[i] + "\r");
+        for (int i = 0; i < length * 3; i++) {
+            System.out.print("Hacking: " + spins[i % length] + "\r");
             Thread.sleep(250);
         }
 
         int min = 0;
         int max = 100;
         Random random = new Random();
-        int randomNumber = random.nextInt(min, max);
-        return randomNumber;
+        return random.nextInt(min, max);
     }
 
-    public static void giveAccess(int randomNumber) {
+    private static void giveAccess(int randomNumber) {
         System.out.print("Hacking: " +
-                (randomNumber > 70 ? GREEN + "Access Granted!" : RED + "Access Denied!") +
+                ((randomNumber > 70) ? (GREEN + "Access Granted!") : (RED + "Access Denied!")) +
                 RESET + "\r");
     }
 }
