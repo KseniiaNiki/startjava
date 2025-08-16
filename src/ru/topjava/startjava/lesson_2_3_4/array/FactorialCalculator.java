@@ -56,7 +56,7 @@ public class FactorialCalculator {
             int n = numbers[i];
             sb.delete(5, sb.length());
             if (n > 1) {
-                for (int j = 1; j < n; n++) {
+                for (int j = 1; j < n; j++) {
                     sb.append(" * ").append(j + 1);
                 }
                 sb.append(" = ");
