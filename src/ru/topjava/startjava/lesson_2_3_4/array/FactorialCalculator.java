@@ -51,20 +51,22 @@ public class FactorialCalculator {
             return;
         }
 
-        StringBuilder sb = new StringBuilder("! = 1");
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < numbers.length; i++) {
             int n = numbers[i];
-            sb.delete(5, sb.length());
+            long f = factorials[i];
             if (n > 1) {
+                sb.append(n).append("! = 1");
                 for (int j = 1; j < n; j++) {
                     sb.append(" * ").append(j + 1);
                 }
-                sb.append(" = ");
+                sb.append(" = ").append(f);
             }
-            long f = factorials[i];
+
             System.out.println(n < 0 ? "Ошибка: факториал " + n + "! не определен"
                     : (n == 1) || (n == 0) ? n + "! = 1"
-                    : n + sb.toString() + f);
+                    : sb.toString());
+            sb.setLength(0);
         }
     }
 }
