@@ -10,9 +10,9 @@ public class ExceedingArrayElementsRemoval {
     public static void main(String[] args) {
         int[] indices = {-1, 15, 0, 14};
         for (int index : indices) {
-            float[] randomArray = fillRandomNumbers();
-            float[] modifiedArray = checkIndexAndElementValue(index, randomArray);
-            showArraysAndElementValue(index, randomArray, modifiedArray);
+            float[] original = fillRandomNumbers();
+            float[] modified = fillExceedingElementsWithZeros(index, original);
+            showResultOfRemoval(index, original, modified);
         }
     }
 
@@ -25,8 +25,8 @@ public class ExceedingArrayElementsRemoval {
         return array;
     }
 
-    private static float[] checkIndexAndElementValue(int index, float[] randomArray) {
-        float[] modifiedArray = Arrays.copyOf(randomArray, randomArray.length);
+    private static float[] fillExceedingElementsWithZeros(int index, float[] originalArray) {
+        float[] modifiedArray = Arrays.copyOf(originalArray, originalArray.length);
 
         if (index < MIN || index > MAX) {
             System.out.println(index + " - ошибочный индекс! Допустимые значения: от " +
@@ -34,15 +34,27 @@ public class ExceedingArrayElementsRemoval {
             return null;
         }
 
-        for (int i = 0; i < randomArray.length; i++) {
-            if (randomArray[i] > randomArray[index]) {
+        for (int i = 0; i < modifiedArray.length; i++) {
+            if (modifiedArray[i] > modifiedArray[index]) {
                 modifiedArray[i] = 0;
             }
         }
         return modifiedArray;
     }
 
-    private static void showArray(float[] array) {
+    private static void showResultOfRemoval(int index, float[] originalArray, float[] modifiedArray) {
+        if (modifiedArray == null) return;
+
+        System.out.println("Исходный массив:");
+        printArray(originalArray);
+
+        System.out.println("Изменённый массив:");
+        printArray(modifiedArray);
+
+        System.out.printf("%s%.3f\n", "Значение из ячейки: ", originalArray[index]);
+    }
+
+    private static void printArray(float[] array) {
         int count = 0;
         for (float a : array) {
             System.out.printf("%.3f%s", a, " ");
@@ -52,17 +64,5 @@ public class ExceedingArrayElementsRemoval {
             }
         }
         System.out.println();
-    }
-
-    private static void showArraysAndElementValue(int index, float[] randomArray, float[] modifiedArray) {
-        if (modifiedArray == null) return;
-
-        System.out.println("Исходный массив:");
-        showArray(randomArray);
-
-        System.out.println("Изменённый массив:");
-        showArray(modifiedArray);
-
-        System.out.printf("%s%.3f\n", "Значение из ячейки по переданному индексу:\n", randomArray[index]);
     }
 }
