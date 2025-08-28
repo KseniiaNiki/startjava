@@ -4,50 +4,54 @@ public class SortedSymbolsTriangleOutput {
     public static void main(String[] args) {
         char start = '0';
         char end = '9';
-        int digitStart = start;
-        int digitEnd = end;
-        boolean directionMarker = true;
-        String triangle = makeTriangle(digitStart, digitEnd, directionMarker);
+        boolean isAscending = true;
+        String triangle = makeTriangle(start, end, isAscending);
         printTriangle(triangle);
 
         start = '/';
         end = '!';
-        digitStart = start;
-        digitEnd = end;
-        directionMarker = false;
-        triangle = makeTriangle(digitStart, digitEnd, directionMarker);
+        isAscending = false;
+        triangle = makeTriangle(start, end, isAscending);
         printTriangle(triangle);
 
         start = 'A';
         end = 'J';
-        digitStart = start;
-        digitEnd = end;
-        triangle = makeTriangle(digitStart, digitEnd, directionMarker);
+        triangle = makeTriangle(start, end, isAscending);
         printTriangle(triangle);
     }
 
-    private static String makeTriangle(int digitStart, int digitEnd, boolean directionMarker) {
-        int rows = Math.abs(digitStart - digitEnd) + 1;
-        char[] newArray = new char[rows];
-        int c = 0;
-        for (char ch = (char) digitStart; ch <= (char) digitEnd; ch++) {
-            newArray[c++] = ch;
+    private static String makeTriangle(char start, char end, boolean isAscending) {
+        if (start > end) {
+            System.out.println("Ошибка: левая граница (" + (int) start + ") > правой (" + (int) end + ")\n");
+            return null;
         }
 
-        StringBuilder sb = new StringBuilder();
-        for (int i = 1; i <= rows; i++) {
-            sb.repeat(" ", rows - i);
-            if (!directionMarker) {
-                sb.repeat(newArray[rows - i], i * 2 - 1);
-            } else {
-                sb.repeat(newArray[i - 1], i * 2 - 1);
+        int rows = Math.abs((int) start - (int) end) + 1;
+        char[] symbols = new char[rows];
+        int index = 0;
+        if (isAscending) {
+            for (char i = start; i <= end; i++) {
+                symbols[index++] = i;
             }
-            sb.append("\n");
+        } else {
+            for (char i = end; i >= start; i--) {
+                symbols[index++] = i;
+            }
         }
-        return sb.toString();
+
+        StringBuilder triangle = new StringBuilder();
+        for (int i = 1; i <= rows; i++) {
+            triangle.repeat(" ", rows - i);
+            triangle.repeat(symbols[i - 1], i * 2 - 1);
+            triangle.append("\n");
+        }
+        return triangle.toString();
     }
 
-    private static void printTriangle(String sb) {
-        System.out.println(sb);
+    private static void printTriangle(String triangle) {
+        if (triangle == null) {
+            return;
+        }
+        System.out.println(triangle);
     }
 }
