@@ -26,7 +26,7 @@ public class SortedSymbolsTriangleOutput {
             return null;
         }
 
-        int rows = Math.abs((int) start - (int) end) + 1;
+        int rows = Math.abs((int) start - end) + 1;
         char[] symbols = new char[rows];
         int index = 0;
         if (isAscending) {
