@@ -1,0 +1,86 @@
+package ru.topjava.startjava.lesson_2_3_4.array;
+
+import java.util.Arrays;
+import java.util.Random;
+
+public class UniqueNumbersFiller {
+    public static void main(String[] args) {
+        int start = -30;
+        int end = -10;
+        int numbersAmountInString = 23;
+        int[] uniqueNumbers = sortNumbersInAscendingOrder(start, end, numbersAmountInString);
+        printUniqueNumbersArray(uniqueNumbers, numbersAmountInString);
+
+        start = 10;
+        end = 50;
+        numbersAmountInString = 10;
+        uniqueNumbers = sortNumbersInAscendingOrder(start, end, numbersAmountInString);
+        printUniqueNumbersArray(uniqueNumbers, numbersAmountInString);
+
+        start = -34;
+        end = -34;
+        numbersAmountInString = 1;
+        uniqueNumbers = sortNumbersInAscendingOrder(start, end, numbersAmountInString);
+        printUniqueNumbersArray(uniqueNumbers, numbersAmountInString);
+
+        start = -1;
+        end = 2;
+        numbersAmountInString = -3;
+        uniqueNumbers = sortNumbersInAscendingOrder(start, end, numbersAmountInString);
+        printUniqueNumbersArray(uniqueNumbers, numbersAmountInString);
+
+        start = 5;
+        end = -8;
+        numbersAmountInString = 2;
+        uniqueNumbers = sortNumbersInAscendingOrder(start, end, numbersAmountInString);
+        printUniqueNumbersArray(uniqueNumbers, numbersAmountInString);
+    }
+
+    private static int[] sortNumbersInAscendingOrder(int start, int end, int numbersAmountInString) {
+        if (start > end) {
+            System.out.println("Ошибка: левая граница (" + start + ") > правой (" + end + ")");
+            return null;
+        }
+
+        if (numbersAmountInString < 1) {
+            System.out.println("Ошибка: количество чисел в строке не должно быть < 1 (" +
+                    numbersAmountInString + ")");
+            return null;
+        }
+
+        int segmentLength = end - start + 1;
+        int arrayLength = (int) (segmentLength * 0.75);
+        if (arrayLength <= 0) {
+            System.out.println("Ошибка: длина массива должна быть > 0 (" + arrayLength + ")");
+            return null;
+        }
+
+        Random r = new Random();
+        int[] uniqueNumbers = new int[arrayLength];
+        for (int i = 0; i < arrayLength; i++) {
+            int random = r.nextInt(start, end) + 1;
+            if (uniqueNumbers[i] != random) {
+                uniqueNumbers[i] = random;
+            }
+        }
+        Arrays.sort(uniqueNumbers);
+        return uniqueNumbers;
+    }
+
+    private static void printUniqueNumbersArray(int[] uniqueNumbers, int numbersAmountInString) {
+        if (uniqueNumbers == null) {
+            return;
+        }
+
+        int count = 0;
+        for (int n : uniqueNumbers) {
+            System.out.printf("%d%s", n, " ");
+            count++;
+            if (count == numbersAmountInString) {
+                System.out.println();
+                count = 0;
+            }
+        }
+        System.out.println();
+    }
+}
