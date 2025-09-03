@@ -7,44 +7,44 @@ public class UniqueNumbersFiller {
     public static void main(String[] args) {
         int start = -30;
         int end = -10;
-        int numbersAmountInString = 23;
-        int[] uniqueNumbers = sortNumbersInAscendingOrder(start, end, numbersAmountInString);
-        printUniqueNumbersArray(uniqueNumbers, numbersAmountInString);
+        int numbersPerLine = 23;
+        int[] uniqueNumbers = fillNumbersInAscendingOrder(start, end, numbersPerLine);
+        printUniqueNumbersArray(uniqueNumbers, numbersPerLine);
 
         start = 10;
         end = 50;
-        numbersAmountInString = 10;
-        uniqueNumbers = sortNumbersInAscendingOrder(start, end, numbersAmountInString);
-        printUniqueNumbersArray(uniqueNumbers, numbersAmountInString);
+        numbersPerLine = 10;
+        uniqueNumbers = fillNumbersInAscendingOrder(start, end, numbersPerLine);
+        printUniqueNumbersArray(uniqueNumbers, numbersPerLine);
 
         start = -34;
         end = -34;
-        numbersAmountInString = 1;
-        uniqueNumbers = sortNumbersInAscendingOrder(start, end, numbersAmountInString);
-        printUniqueNumbersArray(uniqueNumbers, numbersAmountInString);
+        numbersPerLine = 1;
+        uniqueNumbers = fillNumbersInAscendingOrder(start, end, numbersPerLine);
+        printUniqueNumbersArray(uniqueNumbers, numbersPerLine);
 
         start = -1;
         end = 2;
-        numbersAmountInString = -3;
-        uniqueNumbers = sortNumbersInAscendingOrder(start, end, numbersAmountInString);
-        printUniqueNumbersArray(uniqueNumbers, numbersAmountInString);
+        numbersPerLine = -3;
+        uniqueNumbers = fillNumbersInAscendingOrder(start, end, numbersPerLine);
+        printUniqueNumbersArray(uniqueNumbers, numbersPerLine);
 
         start = 5;
         end = -8;
-        numbersAmountInString = 2;
-        uniqueNumbers = sortNumbersInAscendingOrder(start, end, numbersAmountInString);
-        printUniqueNumbersArray(uniqueNumbers, numbersAmountInString);
+        numbersPerLine = 2;
+        uniqueNumbers = fillNumbersInAscendingOrder(start, end, numbersPerLine);
+        printUniqueNumbersArray(uniqueNumbers, numbersPerLine);
     }
 
-    private static int[] sortNumbersInAscendingOrder(int start, int end, int numbersAmountInString) {
+    private static int[] fillNumbersInAscendingOrder(int start, int end, int numbersPerLine) {
         if (start > end) {
             System.out.println("Ошибка: левая граница (" + start + ") > правой (" + end + ")");
             return null;
         }
 
-        if (numbersAmountInString < 1) {
+        if (numbersPerLine < 1) {
             System.out.println("Ошибка: количество чисел в строке не должно быть < 1 (" +
-                    numbersAmountInString + ")");
+                    numbersPerLine + ")");
             return null;
         }
 
@@ -58,16 +58,19 @@ public class UniqueNumbersFiller {
         Random r = new Random();
         int[] uniqueNumbers = new int[arrayLength];
         for (int i = 0; i < arrayLength; i++) {
-            int random = r.nextInt(start, end) + 1;
-            if (uniqueNumbers[i] != random) {
-                uniqueNumbers[i] = random;
+            for (int j = 0; j <= i; j++) {
+                uniqueNumbers[j] = r.nextInt(start, end) + 1;
+                if (uniqueNumbers[i] == uniqueNumbers[j]) {
+                    uniqueNumbers[j] = r.nextInt(start, end) + 1;
+                }
+                uniqueNumbers[i] = uniqueNumbers[j];
             }
         }
         Arrays.sort(uniqueNumbers);
         return uniqueNumbers;
     }
 
-    private static void printUniqueNumbersArray(int[] uniqueNumbers, int numbersAmountInString) {
+    private static void printUniqueNumbersArray(int[] uniqueNumbers, int numbersPerLine) {
         if (uniqueNumbers == null) {
             return;
         }
@@ -76,7 +79,7 @@ public class UniqueNumbersFiller {
         for (int n : uniqueNumbers) {
             System.out.printf("%d%s", n, " ");
             count++;
-            if (count == numbersAmountInString) {
+            if (count == numbersPerLine) {
                 System.out.println();
                 count = 0;
             }
