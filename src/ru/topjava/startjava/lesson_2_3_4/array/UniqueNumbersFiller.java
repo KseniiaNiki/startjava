@@ -58,13 +58,19 @@ public class UniqueNumbersFiller {
         Random r = new Random();
         int[] uniqueNumbers = new int[arrayLength];
         for (int i = 0; i < arrayLength; i++) {
-            for (int j = 0; j <= i; j++) {
-                uniqueNumbers[j] = r.nextInt(start, end) + 1;
-                if (uniqueNumbers[i] == uniqueNumbers[j]) {
-                    uniqueNumbers[j] = r.nextInt(start, end) + 1;
+            boolean isUnique;
+            int random;
+            do {
+                random = r.nextInt(start, end + 1);
+                isUnique = true;
+                for (int j = 0; j < i; j++) {
+                    if (uniqueNumbers[j] == random) {
+                        isUnique = false;
+                        break;
+                    }
                 }
-                uniqueNumbers[i] = uniqueNumbers[j];
-            }
+            } while (!isUnique);
+            uniqueNumbers[i] = random;
         }
         Arrays.sort(uniqueNumbers);
         return uniqueNumbers;
