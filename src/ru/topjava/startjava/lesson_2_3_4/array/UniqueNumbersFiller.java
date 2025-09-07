@@ -8,35 +8,35 @@ public class UniqueNumbersFiller {
         int start = -30;
         int end = -10;
         int numbersPerLine = 23;
-        int[] uniqueNumbers = fillNumbersInAscendingOrder(start, end, numbersPerLine);
-        printUniqueNumbersArray(uniqueNumbers, numbersPerLine);
+        int[] uniqueNumbers = fillUniqueNumbersAsc(start, end, numbersPerLine);
+        printUniqueNumbers(uniqueNumbers, numbersPerLine);
 
         start = 10;
         end = 50;
         numbersPerLine = 10;
-        uniqueNumbers = fillNumbersInAscendingOrder(start, end, numbersPerLine);
-        printUniqueNumbersArray(uniqueNumbers, numbersPerLine);
+        uniqueNumbers = fillUniqueNumbersAsc(start, end, numbersPerLine);
+        printUniqueNumbers(uniqueNumbers, numbersPerLine);
 
         start = -34;
         end = -34;
         numbersPerLine = 1;
-        uniqueNumbers = fillNumbersInAscendingOrder(start, end, numbersPerLine);
-        printUniqueNumbersArray(uniqueNumbers, numbersPerLine);
+        uniqueNumbers = fillUniqueNumbersAsc(start, end, numbersPerLine);
+        printUniqueNumbers(uniqueNumbers, numbersPerLine);
 
         start = -1;
         end = 2;
         numbersPerLine = -3;
-        uniqueNumbers = fillNumbersInAscendingOrder(start, end, numbersPerLine);
-        printUniqueNumbersArray(uniqueNumbers, numbersPerLine);
+        uniqueNumbers = fillUniqueNumbersAsc(start, end, numbersPerLine);
+        printUniqueNumbers(uniqueNumbers, numbersPerLine);
 
         start = 5;
         end = -8;
         numbersPerLine = 2;
-        uniqueNumbers = fillNumbersInAscendingOrder(start, end, numbersPerLine);
-        printUniqueNumbersArray(uniqueNumbers, numbersPerLine);
+        uniqueNumbers = fillUniqueNumbersAsc(start, end, numbersPerLine);
+        printUniqueNumbers(uniqueNumbers, numbersPerLine);
     }
 
-    private static int[] fillNumbersInAscendingOrder(int start, int end, int numbersPerLine) {
+    private static int[] fillUniqueNumbersAsc(int start, int end, int numbersPerLine) {
         if (start > end) {
             System.out.println("Ошибка: левая граница (" + start + ") > правой (" + end + ")");
             return null;
@@ -76,7 +76,7 @@ public class UniqueNumbersFiller {
         return uniqueNumbers;
     }
 
-    private static void printUniqueNumbersArray(int[] uniqueNumbers, int numbersPerLine) {
+    private static void printUniqueNumbers(int[] uniqueNumbers, int numbersPerLine) {
         if (uniqueNumbers == null) {
             return;
         }
