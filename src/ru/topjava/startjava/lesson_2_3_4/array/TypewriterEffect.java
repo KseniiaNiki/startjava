@@ -2,37 +2,37 @@ package ru.topjava.startjava.lesson_2_3_4.array;
 
 public class TypewriterEffect {
     public static void main(String[] args) throws InterruptedException {
-        String sentence = "Java - это C++, из которого убрали все пистолеты, ножи и дубинки.\n" +
+        String inputText = "Java - это C++, из которого убрали все пистолеты, ножи и дубинки.\n" +
                 "- James Gosling";
-        int[] indices = findShortestAndLongestWords(sentence);
-        String[] words = findUpperCaseRange(sentence, indices);
+        int[] indices = findShortestAndLongestWords(inputText);
+        String[] words = toUpperCaseRange(inputText, indices);
         type(words);
-        sentence = "Чтобы написать чистый код, мы сначала пишем грязный код, затем рефакторим его.\n" +
+        inputText = "Чтобы написать чистый код, мы сначала пишем грязный код, затем рефакторим его.\n" +
                 "- Robert Martin";
-        indices = findShortestAndLongestWords(sentence);
-        words = findUpperCaseRange(sentence, indices);
+        indices = findShortestAndLongestWords(inputText);
+        words = toUpperCaseRange(inputText, indices);
         type(words);
-        sentence = null;
-        indices = findShortestAndLongestWords(sentence);
-        words = findUpperCaseRange(sentence, indices);
+        inputText = null;
+        indices = findShortestAndLongestWords(inputText);
+        words = toUpperCaseRange(inputText, indices);
         type(words);
-        sentence = "";
-        indices = findShortestAndLongestWords(sentence);
-        words = findUpperCaseRange(sentence, indices);
+        inputText = "";
+        indices = findShortestAndLongestWords(inputText);
+        words = toUpperCaseRange(inputText, indices);
         type(words);
     }
 
-    private static int[] findShortestAndLongestWords(String sentence) {
-        if (sentence == null) {
+    private static int[] findShortestAndLongestWords(String inputText) {
+        if (inputText == null) {
             System.out.println("Ошибка в получении данных");
             return null;
         }
-        if (sentence.isBlank()) {
+        if (inputText.isBlank()) {
             System.out.println("Получена пустая строка");
             return null;
         }
 
-        String withoutMarks = sentence.replaceAll("\\pP", "");
+        String withoutMarks = inputText.replaceAll("\\pP", "");
         String[] words = withoutMarks.split(" ");
 
         String shortestWord = words[0];
@@ -55,11 +55,11 @@ public class TypewriterEffect {
         return new int[] {shortestWordIndex, longestWordIndex};
     }
 
-    private static String[] findUpperCaseRange(String sentence, int[] indices) {
-        if ((sentence == null) || (indices == null)) {
+    private static String[] toUpperCaseRange(String inputText, int[] indices) {
+        if ((inputText == null) || (indices == null)) {
             return null;
         }
-        String[] parts = sentence.split(" ");
+        String[] parts = inputText.split(" ");
         if (indices[0] > indices[1]) {
             indices[0] = indices[0] ^ indices[1] ^ (indices[1] = indices[0]);
         }
