@@ -3,17 +3,20 @@ package ru.topjava.startjava.lesson_2_3_4.hangman;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class HangmanGame {
-    static final int ATTEMPTS = 6;
-    private int attemptCounter = 6;
-    private int mistakeCounter = 0;
-    private String[] gallows = {"_______", "|     |", "|     @", "|    /|\\", "|    / \\", "| GAME OVER!"};
+    private String[] words = {"ВЕЛОСИПЕД", "ХОЛОДИЛЬНИК", "КОМПЬЮТЕР", "ДИАГОНАЛЬ", "РАКОВИНА"};
+    private String[] gallows =
+            {"_______",
+            "|     |",
+            "|     @",
+            "|    /|\\",
+            "|    / \\",
+            "| GAME OVER!"};
+    private int attempts = gallows.length;
+    private int attemptsLeft = attempts;
 
     public String chooseWord() {
-        String[] words = {"ВЕЛОСИПЕД", "ХОЛОДИЛЬНИК", "КОМПЬЮТЕР", "ДИАГОНАЛЬ", "РАКОВИНА"};
         Random random = new Random();
         int indexOfGuessWord = random.nextInt(words.length);
         return words[indexOfGuessWord];
@@ -22,75 +25,66 @@ public class HangmanGame {
     public void start(String word) {
         Scanner scanner = new Scanner(System.in);
         char[] guessWordLetters = word.toCharArray();
-
         char[] guessWordMask = new char[word.length()];
         Arrays.fill(guessWordMask, '*');
-        char[] guessedLetters = new char[word.length()];
+        StringBuilder guessedLetters = new StringBuilder();
         StringBuilder wrongLetters = new StringBuilder();
+        boolean isGameOver = false;
 
-        for (int i = 0; i < guessWordLetters.length; i++) {
+        while (!isGameOver) {
+            System.out.println("Зашифрованное слово: " + String.valueOf(guessWordMask));
+            System.out.println("Из " + attempts + " попыток осталось " + attemptsLeft);
+
+            if (!wrongLetters.isEmpty()) {
+                System.out.println("Введённые ошибочные буквы: " + wrongLetters);
+            }
             System.out.print("Угадайте загаданное слово, вводя по одной букве кириллицы: ");
-            char inputLetter = scanner.next().charAt(0);
-//            String inputLetter = scanner.next();
+            char enteredLetter = Character.toUpperCase(scanner.next().charAt(0));
             scanner.nextLine();
-//            Pattern pattern = Pattern.compile("[а-яёА-ЯЁ]{1}");
-//            Matcher matcher = pattern.matcher(inputLetter);
-//            while (matcher.find() == false) {
-//                System.out.print("Введён некорректный тип символов! Повторите ввод: ");
-//                inputLetter = scanner.next();
-//                scanner.nextLine();
-//            }
-            while ((inputLetter < 'А') ||
-                    ((inputLetter > 'п') && (inputLetter < 'р')) ||
-                    (inputLetter > 'ё')) {
-                System.out.print("Введён некорректный тип символов! Повторите ввод: ");
-                inputLetter = scanner.next().charAt(0);
-                scanner.nextLine();
+            String stringLetter = String.valueOf(enteredLetter);
+
+            if (!isCyrillic(enteredLetter)) {
+                System.out.println("Введён некорректный тип символов!");
+                continue;
             }
 
-            if (guessWordLetters[i] == Character.toUpperCase(inputLetter)) {
-                guessedLetters[i] = Character.toUpperCase(inputLetter);
-//                guessedLetters[i] = inputLetter.toUpperCase().charAt(0);
-                attemptCounter++;
-                if (attemptCounter > 6) {
-                    attemptCounter = 6;
+            if (guessedLetters.toString().contains(stringLetter)) {
+                System.out.println("Такая буква уже была введена ранее!");
+                continue;
+            }
+            guessedLetters.append(enteredLetter);
+
+            if (word.contains(stringLetter)) {
+                for (int i = 0; i < word.length(); i++) {
+                    if (word.charAt(i) == enteredLetter) {
+                        guessWordMask[i] = enteredLetter;
+                    }
                 }
-                if (mistakeCounter > 0) {
-                    mistakeCounter--;
+                attemptsLeft++;
+                if (attemptsLeft > 6) {
+                    attemptsLeft = 6;
                 }
             } else {
-                guessedLetters[i] = '*';
-                mistakeCounter++;
-                for (int j = 0; j < mistakeCounter; j++) {
-                    System.out.println(gallows[j]);
+                attemptsLeft--;
+                wrongLetters.append(enteredLetter);
+                for (int i = 0; i < (gallows.length - attemptsLeft); i++) {
+                    System.out.println(gallows[i]);
                 }
-                wrongLetters.append(Character.toUpperCase(inputLetter));
-                attemptCounter--;
+                System.out.println();
             }
-
-            if (attemptCounter == 0) {
+            
+            if (attemptsLeft == 0) {
                 System.out.println("Вы проиграли! \nЗагаданное слово - " + word);
-                attemptCounter = 6;
-                mistakeCounter = 0;
-                break;
-            }
-
-            if (Arrays.equals(guessWordMask, guessWordLetters)) {
+                attemptsLeft = 6;
+                isGameOver = true;
+            } else if (Arrays.equals(guessWordMask, guessWordLetters)) {
                 System.out.println("Вы выиграли игру!");
-                break;
+                isGameOver = true;
             }
-
-            printArray(guessWordMask);
-            printArray(guessedLetters);
-            System.out.println("Из " + ATTEMPTS + " попыток осталось " + attemptCounter);
-            System.out.println("Введённые ошибочные буквы: " + wrongLetters);
         }
     }
 
-    public void printArray(char[] array) {
-        for (char a : array) {
-            System.out.print(a);
-        }
-        System.out.println();
+    private boolean isCyrillic(char ch) {
+        return (ch >= 'А' && ch <= 'Я') || (ch == 'Ё');
     }
 }

@@ -8,19 +8,17 @@ public class HangmanGameMain {
         String guessWord = game.chooseWord();
         Scanner scanner = new Scanner(System.in);
         String answer = "yes";
-        while (answer.equals("yes")) {
-            game.start(guessWord);
+        do {
+            if (answer.equals("yes")) {
+                game.start(guessWord);
+            }
             System.out.print("Хотите продолжить вычисления? [yes/no]: ");
             answer = scanner.nextLine().toLowerCase();
+
             while (!answer.equals("no") && !answer.equals("yes")) {
-                System.out.print("Введите корректный ответ [yes / no]: ");
+                System.out.print("Введите корректный ответ [yes/no]: ");
                 answer = scanner.nextLine().toLowerCase();
             }
-//            do {
-//                System.out.print("Введите корректный ответ [yes / no]: ");
-//                answer = scanner.nextLine().toLowerCase();
-//            } while (!answer.equals("no") && !answer.equals("yes"));
-        }
-
+        } while (!answer.equals("no"));
     }
 }
