@@ -5,86 +5,102 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class HangmanGame {
-    private String[] words = {"ВЕЛОСИПЕД", "ХОЛОДИЛЬНИК", "КОМПЬЮТЕР", "ДИАГОНАЛЬ", "РАКОВИНА"};
-    private String[] gallows =
+    private final String[] words = {"ВЕЛОСИПЕД", "ХОЛОДИЛЬНИК", "КОМПЬЮТЕР", "ДИАГОНАЛЬ", "РАКОВИНА"};
+    private final String[] gallows =
             {"_______",
             "|     |",
             "|     @",
             "|    /|\\",
             "|    / \\",
             "| GAME OVER!"};
-    private int attempts = gallows.length;
-    private int attemptsLeft = attempts;
+    private final int attempts = gallows.length;
+    private int attemptsLeft;
+    private String secretWord;
+    char[] guessWordMask;
+    StringBuilder guessedLetters;
+    StringBuilder wrongLetters;
+    private int hangmanStep;
 
-    public String chooseWord() {
+    public HangmanGame() {
         Random random = new Random();
-        int indexOfGuessWord = random.nextInt(words.length);
-        return words[indexOfGuessWord];
+        this.attemptsLeft = attempts;
+        this.secretWord = words[random.nextInt(words.length)];
+        this.guessWordMask = new char[secretWord.length()];
+        Arrays.fill(guessWordMask, '*');
+        this.guessedLetters = new StringBuilder();
+        this.wrongLetters = new StringBuilder();
+        this.hangmanStep = 0;
     }
 
-    public void start(String word) {
+    public void start() {
         Scanner scanner = new Scanner(System.in);
-        char[] guessWordLetters = word.toCharArray();
-        char[] guessWordMask = new char[word.length()];
-        Arrays.fill(guessWordMask, '*');
-        StringBuilder guessedLetters = new StringBuilder();
-        StringBuilder wrongLetters = new StringBuilder();
+        char[] guessWordLetters = secretWord.toCharArray();
         boolean isGameOver = false;
 
         while (!isGameOver) {
-            System.out.println("Зашифрованное слово: " + String.valueOf(guessWordMask));
-            System.out.println("Из " + attempts + " попыток осталось " + attemptsLeft);
+            System.out.println("Угадываемое слово: " + String.valueOf(guessWordMask));
+            System.out.println("Попыток: " + attemptsLeft + " из " + attempts);
 
             if (!wrongLetters.isEmpty()) {
                 System.out.println("Введённые ошибочные буквы: " + wrongLetters);
             }
-            System.out.print("Угадайте загаданное слово, вводя по одной букве кириллицы: ");
-            char enteredLetter = Character.toUpperCase(scanner.next().charAt(0));
+            char enteredLetter = getLetter(scanner);
             scanner.nextLine();
             String stringLetter = String.valueOf(enteredLetter);
 
             if (!isCyrillic(enteredLetter)) {
-                System.out.println("Введён некорректный тип символов!");
+                System.out.println("Ошибка: вводите только кириллические буквы!\n");
                 continue;
             }
 
             if (guessedLetters.toString().contains(stringLetter)) {
-                System.out.println("Такая буква уже была введена ранее!");
+                System.out.println("Такая буква уже была введена ранее!\n");
                 continue;
             }
             guessedLetters.append(enteredLetter);
 
-            if (word.contains(stringLetter)) {
-                for (int i = 0; i < word.length(); i++) {
-                    if (word.charAt(i) == enteredLetter) {
+            if (secretWord.contains(stringLetter)) {
+                for (int i = 0; i < secretWord.length(); i++) {
+                    if (secretWord.charAt(i) == enteredLetter) {
                         guessWordMask[i] = enteredLetter;
                     }
                 }
-                attemptsLeft++;
-                if (attemptsLeft > 6) {
-                    attemptsLeft = 6;
+                if (hangmanStep > 0) {
+                    hangmanStep--;
+                    attemptsLeft = Math.min(attemptsLeft + 1, attempts);
                 }
+                displayHangman();
             } else {
-                attemptsLeft--;
                 wrongLetters.append(enteredLetter);
-                for (int i = 0; i < (gallows.length - attemptsLeft); i++) {
-                    System.out.println(gallows[i]);
-                }
-                System.out.println();
+                hangmanStep++;
+                attemptsLeft--;
+                displayHangman();
             }
             
             if (attemptsLeft == 0) {
-                System.out.println("Вы проиграли! \nЗагаданное слово - " + word);
+                System.out.println("Вы проиграли! \nЗагаданное слово - " + secretWord);
                 attemptsLeft = 6;
                 isGameOver = true;
             } else if (Arrays.equals(guessWordMask, guessWordLetters)) {
                 System.out.println("Вы выиграли игру!");
                 isGameOver = true;
             }
+            System.out.println();
         }
     }
 
-    private boolean isCyrillic(char ch) {
+    private static char getLetter(Scanner scanner) {
+        System.out.print("Введите букву кириллицы: ");
+        return Character.toUpperCase(scanner.next().charAt(0));
+    }
+
+    private static boolean isCyrillic(char ch) {
         return (ch >= 'А' && ch <= 'Я') || (ch == 'Ё');
+    }
+
+    private void displayHangman() {
+        for (int i = 0; i < hangmanStep; i++) {
+            System.out.println(gallows[i]);
+        }
     }
 }
