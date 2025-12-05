@@ -8,21 +8,14 @@ public class HangmanGameMain {
         String answer = "yes";
 
         do {
-            HangmanGame game = new HangmanGame();
-            if (answer.equals("yes")) {
+            if ("yes".equals(answer)) {
+                HangmanGame game = new HangmanGame();
                 game.start();
+                System.out.print("Хотите продолжить игру? [yes/no]: ");
+            } else {
+                System.out.print("Введите корректный ответ [yes/no]: ");
             }
-            System.out.print("Хотите продолжить игру? [yes/no]: ");
-            answer = getAnswer(scanner);
-        } while (!answer.equals("no"));
-    }
-
-    private static String getAnswer(Scanner scanner) {
-        String answer = scanner.nextLine().toLowerCase();
-        while (!answer.equals("no") && !answer.equals("yes")) {
-            System.out.print("Введите корректный ответ [yes/no]: ");
             answer = scanner.nextLine().toLowerCase();
-        }
-        return answer;
+        } while (!"no".equals(answer));
     }
 }
