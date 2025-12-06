@@ -5,17 +5,20 @@ import java.util.Scanner;
 public class NewCalculatorTest {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        NewCalculator newCalculatorOne = new NewCalculator();
         String answer = "yes";
-        while (answer.equals("yes")) {
-            System.out.print("Введите выражение из трех аргументов, например, 2 * 5: ");
-            String mathExpression = scanner.nextLine();
-            double result = newCalculatorOne.calculate(mathExpression);
-            newCalculatorOne.printCalculationResult(result);
-            do {
+
+        do {
+            if ("yes".equals(answer)) {
+                NewCalculator newCalculatorOne = new NewCalculator();
+                System.out.print("Введите выражение из трех аргументов, например, 2 * 5: ");
+                String mathExpression = scanner.nextLine();
+                double result = newCalculatorOne.calculate(mathExpression);
+                newCalculatorOne.printCalculationResult(result);
                 System.out.print("Хотите продолжить вычисления? [yes/no]: ");
-                answer = scanner.nextLine();
-            } while (!answer.equals("no") && !answer.equals("yes"));
-        }
+            } else {
+                System.out.print("Введите корректный ответ [yes/no]: ");
+            }
+            answer = scanner.nextLine().toLowerCase();
+        } while (!"no".equals(answer));
     }
 }
