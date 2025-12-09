@@ -5,57 +5,53 @@ public class Calculator {
     private int number2;
     private char mathOperation;
 
-    public void setNumber1(int number1) {
-        this.number1 = number1;
+    public int getNumber1() {
+        return number1;
     }
 
-    public void setNumber2(int number2) {
-        this.number2 = number2;
+    public int getNumber2() {
+        return number2;
     }
 
-    public void setMathOperation(char mathOperation) {
-        this.mathOperation = mathOperation;
+    public char getMathOperation() {
+        return mathOperation;
     }
 
-    public void calculate() {
-        double result = 1.0;
+    public double calculate(String mathExpression) {
+        String[] parts = mathExpression.split(" ");
+        number1 = Integer.parseInt(parts[0]);
+        number2 = Integer.parseInt(parts[2]);
+        mathOperation = parts[1].charAt(0);
         switch (mathOperation) {
             case '+':
-                result = number1 + number2;
-                break;
+                return number1 + number2;
             case '-':
-                result = number1 - number2;
-                break;
+                return number1 - number2;
             case '*':
-                result = number1 * number2;
-                break;
+                return number1 * number2;
             case '/':
-                if (number2 == 0) {
-                    System.out.println("Ошибка: деление на ноль запрещено");
-                    return;
+                if (isDoubleNan(number2)) {
+                    return Double.NaN;
                 }
-                result = number1 / number2;
-                break;
+                return (double) number1 / number2;
             case '^':
-                if (number2 != 0) {
-                    double baseNumber = number2 < 0 ? (1.0 / number1) : number1;
-                    int absNumber2 = Math.abs(number2);
-                    for (int i = 0; i < absNumber2; i++) {
-                        result *= baseNumber;
-                    }
-                }
-                break;
+                return Math.pow(number1, number2);
             case '%':
-                if (number2 == 0) {
-                    System.out.println("Ошибка: деление на ноль запрещено");
-                    return;
+                if (isDoubleNan(number2)) {
+                    return Double.NaN;
                 }
-                result = number1 % number2;
-                break;
+                return Math.floorMod(number1, number2);
             default:
                 System.out.println("Ошибка: операция '" + mathOperation + "' не поддерживается");
-                return;
+                return Double.NaN;
         }
-        System.out.println(number1 + " " + mathOperation + " " + number2 + " = " + result);
+    }
+
+    private boolean isDoubleNan(int number) {
+        if (number == 0) {
+            System.out.println("Ошибка: деление на ноль запрещено");
+            return true;
+        }
+        return false;
     }
 }
