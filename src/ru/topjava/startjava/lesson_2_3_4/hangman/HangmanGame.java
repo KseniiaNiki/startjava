@@ -39,7 +39,8 @@ public class HangmanGame {
 
         while (!isGameOver) {
             printInfo();
-            char enteredLetter = enterAndCheckLetter(scanner);
+            char enteredLetter = getValidLetter(scanner);
+            guessedLetters.append(enteredLetter);
             String stringLetter = String.valueOf(enteredLetter);
 
             if (secretWord.contains(stringLetter)) {
@@ -70,31 +71,28 @@ public class HangmanGame {
         }
     }
 
-    private char enterAndCheckLetter(Scanner scanner) {
+    private char getValidLetter(Scanner scanner) {
         System.out.print("Введите букву кириллицы: ");
         char letter = Character.toUpperCase(scanner.next().charAt(0));
-        String stringLetter = String.valueOf(letter);
-        while (isValid(letter, stringLetter)) {
-            printInfo();
+        while (!isValid(letter)) {
             System.out.print("Введите букву кириллицы: ");
             letter = Character.toUpperCase(scanner.next().charAt(0));
-            stringLetter = String.valueOf(letter);
         }
-        guessedLetters.append(letter);
         return letter;
     }
 
-    private boolean isValid(char enteredLetter, String stringLetter) {
+    private boolean isValid(char enteredLetter) {
         if (!isCyrillic(enteredLetter)) {
             System.out.println("Ошибка: вводите только кириллические буквы!\n");
-            return true;
+            return false;
         }
+        String stringLetter = String.valueOf(enteredLetter);
 
         if (guessedLetters.toString().contains(stringLetter)) {
             System.out.println("Такая буква уже была введена ранее!\n");
-            return true;
+            return false;
         }
-        return false;
+        return true;
     }
 
     private static boolean isCyrillic(char ch) {
