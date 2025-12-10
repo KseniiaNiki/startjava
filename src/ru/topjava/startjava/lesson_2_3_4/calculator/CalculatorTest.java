@@ -14,7 +14,7 @@ public class CalculatorTest {
                 System.out.print("Введите выражение из трех аргументов, например, 2 * 5: ");
                 String mathExpression = scanner.nextLine();
                 double result = calculator.calculate(mathExpression);
-                printCalculationResult(calculator, result);
+                printCalculationResult(mathExpression, result);
                 System.out.print("Хотите продолжить вычисления? [yes/no]: ");
             } else {
                 System.out.print("Введите корректный ответ [yes/no]: ");
@@ -23,14 +23,13 @@ public class CalculatorTest {
         } while (!"no".equals(answer));
     }
 
-    private static void printCalculationResult(Calculator calculator, double result) {
+    private static void printCalculationResult(String mathExpression, double result) {
         if (Double.isNaN(result) || Double.isInfinite(result)) {
             return;
         }
 
         DecimalFormat df = new DecimalFormat("###.###");
         String formattedResult = df.format(result);
-        System.out.println(calculator.getNumber1() + " " + calculator.getMathOperation() + " " +
-                calculator.getNumber2() + " = " + formattedResult);
+        System.out.println(mathExpression + " = " + formattedResult);
     }
 }
