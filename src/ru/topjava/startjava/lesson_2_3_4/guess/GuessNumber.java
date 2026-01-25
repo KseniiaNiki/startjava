@@ -44,7 +44,8 @@ public class GuessNumber {
     private void makeMove(Player player, Scanner scanner, int randomNumber) {
         System.out.print("Попытка №" + (player.getCurrAttempt() + 1) +
                 "\nЧисло вводит " + player.getName() + ": ");
-        getValidNumber(scanner, player);
+        int currNumber = getNumber(scanner, player);
+        player.addAttempt(currNumber);
         if (player.getCurrentNumber() == randomNumber) {
             System.out.println(player.getName() + " угадал число " + player.getCurrentNumber() +
                     " с " + (player.getCurrAttempt()) + "-й попытки!");
@@ -58,13 +59,12 @@ public class GuessNumber {
         }
     }
 
-    private void getValidNumber(Scanner scanner, Player player) {
-        int currNumber;
-        boolean isValid = false;
-        while (!isValid) {
+    private int getNumber(Scanner scanner, Player player) {
+        int currNumber = scanner.nextInt();
+        while (!player.isValidNumber(currNumber)) {
             currNumber = scanner.nextInt();
-            isValid = player.addNumber(currNumber);
         }
+        return currNumber;
     }
 
     private static int getRandomNumber(int maxValue, int minValue) {

@@ -23,23 +23,18 @@ public class Player {
         return currAttempt;
     }
 
-    public boolean addNumber(int number) {
+    public boolean isValidNumber(int number) {
         if ((number < MIN_VALUE) || (number > MAX_VALUE)) {
             System.out.println("Число должно входить в отрезок [" + MIN_VALUE + ", " + MAX_VALUE + "].");
             System.out.print("Попробуйте еще раз: ");
             return false;
         } else {
-            addAttempt(number);
             return true;
         }
     }
 
     public int getCurrentNumber() {
-        if (currAttempt <= numbers.length - 1) {
-            return numbers[currAttempt];
-        } else {
-            return numbers[currAttempt - 1];
-        }
+        return numbers[currAttempt - 1];
     }
 
     public boolean hasAttemptsLeft() {
