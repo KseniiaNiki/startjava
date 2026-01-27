@@ -6,51 +6,50 @@ public class GuessNumber {
     private final Player playerOne;
     private final Player playerTwo;
 
-    private final int minValue = Player.MIN_VALUE;
-    private final int maxValue = Player.MAX_VALUE;
-    private final int attempts = Player.ATTEMPTS;
-    private final int randomNumber = getRandomNumber(maxValue, minValue);
+    private final int secretNumber;
 
     boolean isGameOver = false;
 
     public GuessNumber(Player playerOne, Player playerTwo) {
         this.playerOne = playerOne;
         this.playerTwo = playerTwo;
+        this.secretNumber = generateRandomNumber(Player.MAX_VALUE, Player.MIN_VALUE);
     }
 
     public void start() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Игра началась! У каждого игрока по " + attempts + " попыток");
-        System.out.println("Угадайте целое число в отрезке [" + minValue + ", " + maxValue + "]: ");
+        System.out.println("Игра началась! У каждого игрока по " + Player.ATTEMPTS + " попыток");
+        System.out.println("Угадайте целое число в отрезке [" + Player.MIN_VALUE + ", "
+                + Player.MAX_VALUE + "]: ");
         while (!isGameOver) {
             if (playerOne.hasAttemptsLeft() || playerTwo.hasAttemptsLeft()) {
-                makeMove(playerOne, scanner, randomNumber);
-                if (playerOne.getAttempts()[playerOne.getAttempts().length - 1] == randomNumber) {
-                    endGame(randomNumber, playerOne, playerTwo);
+                makeMove(playerOne, scanner, secretNumber);
+                if (playerOne.getAttempts()[playerOne.getAttempts().length - 1] == secretNumber) {
+                    endGame(secretNumber, playerOne, playerTwo);
                     return;
                 }
-                makeMove(playerTwo, scanner, randomNumber);
-                if (playerTwo.getAttempts()[playerTwo.getAttempts().length - 1] == randomNumber) {
-                    endGame(randomNumber, playerOne, playerTwo);
+                makeMove(playerTwo, scanner, secretNumber);
+                if (playerTwo.getAttempts()[playerTwo.getAttempts().length - 1] == secretNumber) {
+                    endGame(secretNumber, playerOne, playerTwo);
                     return;
                 }
             } else {
-                endGame(randomNumber, playerOne, playerTwo);
+                endGame(secretNumber, playerOne, playerTwo);
                 return;
             }
         }
     }
 
-    private void makeMove(Player player, Scanner scanner, int randomNumber) {
+    private void makeMove(Player player, Scanner scanner, int secretNumber) {
         System.out.print("Попытка №" + (player.getCurrAttempt() + 1) +
                 "\nЧисло вводит " + player.getName() + ": ");
-        int currNumber = getNumber(scanner, player);
+        int currNumber = inputAttempt(scanner, player);
         player.addAttempt(currNumber);
-        if (player.getCurrentNumber() == randomNumber) {
+        if (player.getCurrentNumber() == secretNumber) {
             System.out.println(player.getName() + " угадал число " + player.getCurrentNumber() +
                     " с " + (player.getCurrAttempt()) + "-й попытки!");
         } else {
-            System.out.println("Ваше число " + ((player.getCurrentNumber() > randomNumber)
+            System.out.println("Ваше число " + ((player.getCurrentNumber() > secretNumber)
                     ? "больше того, что загадал компьютер"
                     : "меньше того, что загадал компьютер"));
         }
@@ -59,21 +58,22 @@ public class GuessNumber {
         }
     }
 
-    private int getNumber(Scanner scanner, Player player) {
+    private int inputAttempt(Scanner scanner, Player player) {
         int currNumber = scanner.nextInt();
         while (!player.isValidNumber(currNumber)) {
+            System.out.print("Попробуйте еще раз: ");
             currNumber = scanner.nextInt();
         }
         return currNumber;
     }
 
-    private static int getRandomNumber(int maxValue, int minValue) {
+    private static int generateRandomNumber(int maxValue, int minValue) {
         return (int) (Math.random() * (maxValue - minValue + 1)) + minValue;
     }
 
-    private void endGame(int randomNumber, Player playerOne, Player playerTwo) {
+    private void endGame(int secretNumber, Player playerOne, Player playerTwo) {
         Player[] players = {playerOne, playerTwo};
-        System.out.println("Игра окончена! Загаданное число: " + randomNumber);
+        System.out.println("Игра окончена! Загаданное число: " + secretNumber);
         printAllAttempts(players);
         for (Player pl : players) {
             pl.clear();

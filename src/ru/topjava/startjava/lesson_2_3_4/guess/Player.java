@@ -8,11 +8,12 @@ public class Player {
     protected static final int ATTEMPTS = 10;
 
     private final String name;
-    private final int[] numbers = new int[ATTEMPTS];
+    private final int[] attempts;
     private int currAttempt = 0;
 
     public Player(String name) {
         this.name = name;
+        this.attempts = new int[ATTEMPTS];
     }
 
     public String getName() {
@@ -26,15 +27,13 @@ public class Player {
     public boolean isValidNumber(int number) {
         if ((number < MIN_VALUE) || (number > MAX_VALUE)) {
             System.out.println("Число должно входить в отрезок [" + MIN_VALUE + ", " + MAX_VALUE + "].");
-            System.out.print("Попробуйте еще раз: ");
             return false;
-        } else {
-            return true;
         }
+        return true;
     }
 
     public int getCurrentNumber() {
-        return numbers[currAttempt - 1];
+        return attempts[currAttempt - 1];
     }
 
     public boolean hasAttemptsLeft() {
@@ -43,16 +42,16 @@ public class Player {
 
     public void addAttempt(int number) {
         if (currAttempt < ATTEMPTS) {
-            numbers[currAttempt++] = number;
+            attempts[currAttempt++] = number;
         }
-    }
-
-    public int[] getAttempts() {
-        return Arrays.copyOf(numbers, currAttempt);
     }
 
     public void clear() {
         currAttempt = 0;
         Arrays.fill(getAttempts(), 0);
+    }
+
+    public int[] getAttempts() {
+        return Arrays.copyOf(attempts, currAttempt);
     }
 }
