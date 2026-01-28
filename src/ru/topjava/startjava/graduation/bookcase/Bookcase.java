@@ -1,10 +1,10 @@
-package ru.topjava.startjava.graduation.bookshelf;
+package ru.topjava.startjava.graduation.bookcase;
 
 import java.time.Year;
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class Bookshelf {
+public class Bookcase {
     private static final int MAX_BOOK_AMOUNT = 10;
     private static final int MIN_YEAR = 1800;
     private int booksAmount;

@@ -1,11 +1,11 @@
-package ru.topjava.startjava.graduation.bookshelf;
+package ru.topjava.startjava.graduation.bookcase;
 
 import java.util.Scanner;
 
-public class BookshelfTest {
+public class BookcaseTest {
     public static void main(String[] args) throws InterruptedException {
         Scanner scanner = new Scanner(System.in);
-        Bookshelf bookshelf = new Bookshelf();
+        Bookcase bookcase = new Bookcase();
         int answer;
         sayHello();
         boolean isProgramOver = false;
@@ -15,20 +15,20 @@ public class BookshelfTest {
             answer = readValue(scanner);
             switch (answer) {
                 case 1:
-                    bookshelf.addBook(scanner);
+                    bookcase.addBook(scanner);
                     break;
                 case 2:
                     System.out.print("Введите название книги, которую хотите найти: ");
                     String titleToFind = scanner.nextLine();
-                    bookshelf.findBook(titleToFind);
+                    bookcase.findBook(titleToFind);
                     break;
                 case 3:
                     System.out.print("Введите название книги, которую хотите удалить: ");
                     String titleToDelete = scanner.nextLine();
-                    bookshelf.removeBook(titleToDelete);
+                    bookcase.removeBook(titleToDelete);
                     break;
                 case 4:
-                    bookshelf.clearBookcase();
+                    bookcase.clearBookcase();
                     break;
                 case 5:
                     isProgramOver = true;
@@ -37,8 +37,8 @@ public class BookshelfTest {
 
             System.out.println("Для продолжения работы нажмите клавишу <Enter>");
             scanner.nextLine();
-            if (bookshelf.getBooksAmount() > 0) {
-                printInfo(bookshelf);
+            if (bookcase.getBooksAmount() > 0) {
+                printInfo(bookcase);
             } else {
                 showEmptyBookcase();
             }
@@ -75,11 +75,11 @@ public class BookshelfTest {
         System.out.println(menu);
     }
 
-    public static void printInfo(Bookshelf bookshelf) {
-        System.out.println("В шкафу книг - " + bookshelf.getBooksAmount() +
-                ", свободно полок - " + bookshelf.getFreeShelves());
+    public static void printInfo(Bookcase bookcase) {
+        System.out.println("В шкафу книг - " + bookcase.getBooksAmount() +
+                ", свободно полок - " + bookcase.getFreeShelves());
 
-        bookshelf.getAllBooks();
+        bookcase.getAllBooks();
     }
 
     public static int readValue(Scanner scanner) {

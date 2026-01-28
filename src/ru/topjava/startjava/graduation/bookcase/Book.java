@@ -1,4 +1,4 @@
-package ru.topjava.startjava.graduation.bookshelf;
+package ru.topjava.startjava.graduation.bookcase;
 
 import java.time.Year;
 
