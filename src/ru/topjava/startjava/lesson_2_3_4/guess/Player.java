@@ -8,12 +8,12 @@ public class Player {
     protected static final int ATTEMPTS = 10;
 
     private final String name;
-    private final int[] playerNumbers;
+    private final int[] numbers;
     private int currAttempt = 0;
 
     public Player(String name) {
         this.name = name;
-        this.playerNumbers = new int[ATTEMPTS];
+        this.numbers = new int[ATTEMPTS];
     }
 
     public String getName() {
@@ -33,25 +33,23 @@ public class Player {
     }
 
     public int getCurrentNumber() {
-        return playerNumbers[currAttempt - 1];
+        return numbers[currAttempt - 1];
     }
 
-    public boolean hasAttemptsLeft() {
-        return currAttempt < ATTEMPTS;
-    }
-
-    public void addNumber(int number) {
+    public boolean addNumber(int number) {
         if (isValidNumber(number)) {
-            playerNumbers[currAttempt++] = number;
+            numbers[currAttempt++] = number;
+            return true;
         }
+        return false;
     }
 
     public void clear() {
         currAttempt = 0;
-        Arrays.fill(getInputNumbers(), 0);
+        Arrays.fill(getEnteredNumbers(), 0);
     }
 
-    public int[] getInputNumbers() {
-        return Arrays.copyOf(playerNumbers, currAttempt);
+    public int[] getEnteredNumbers() {
+        return Arrays.copyOf(numbers, currAttempt);
     }
 }
