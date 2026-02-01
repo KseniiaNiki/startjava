@@ -6,13 +6,17 @@ import java.util.Scanner;
 public class GuessNumber {
     private final Player playerOne;
     private final Player playerTwo;
-
     private final int secretNumber;
 
     public GuessNumber(Player playerOne, Player playerTwo) {
         this.playerOne = playerOne;
         this.playerTwo = playerTwo;
         this.secretNumber = generateSecretNumber();
+    }
+
+    private int generateSecretNumber() {
+        Random random = new Random();
+        return random.nextInt(Player.MIN_VALUE, Player.MAX_VALUE + 1);
     }
 
     public void start() {
@@ -32,10 +36,9 @@ public class GuessNumber {
 
     private boolean makeMove(Player player, Scanner scanner) {
         printInfoAboutAttempts(player);
-        int currNumber = inputNumber(scanner, player);
-        player.addNumber(currNumber);
+        inputNumber(scanner, player);
 
-        if (isNumberGuessed(player, secretNumber)) {
+        if (isGuessedNumber(player, secretNumber)) {
             return true;
         }
 
@@ -50,30 +53,25 @@ public class GuessNumber {
                 "\nЧисло вводит " + player.getName() + ": ");
     }
 
-    private int inputNumber(Scanner scanner, Player player) {
+    private void inputNumber(Scanner scanner, Player player) {
         int currNumber = scanner.nextInt();
         while (!player.addNumber(currNumber)) {
             System.out.print("Попробуйте еще раз: ");
             currNumber = scanner.nextInt();
         }
-        return currNumber;
     }
 
-    private boolean isNumberGuessed(Player player, int secretNumber) {
-        if (player.getCurrentNumber() == secretNumber) {
-            System.out.println(player.getName() + " угадал число " + player.getCurrentNumber() +
+    private boolean isGuessedNumber(Player player, int secretNumber) {
+        int playerCurrNumber = player.getCurrNumber();
+        if (playerCurrNumber == secretNumber) {
+            System.out.println(player.getName() + " угадал число " + playerCurrNumber +
                     " с " + (player.getCurrAttempt()) + "-й попытки!");
             return true;
         }
-        System.out.println("Ваше число " + ((player.getCurrentNumber() > secretNumber)
+        System.out.println("Ваше число " + ((playerCurrNumber > secretNumber)
                 ? "больше того, что загадал компьютер"
                 : "меньше того, что загадал компьютер"));
         return false;
-    }
-
-    private int generateSecretNumber() {
-        Random random = new Random();
-        return random.nextInt(Player.MIN_VALUE, Player.MAX_VALUE + 1);
     }
 
     public boolean hasAttemptsLeft(Player player) {

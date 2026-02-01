@@ -24,15 +24,7 @@ public class Player {
         return currAttempt;
     }
 
-    public boolean isValidNumber(int number) {
-        if ((number < MIN_VALUE) || (number > MAX_VALUE)) {
-            System.out.println("Число должно входить в отрезок [" + MIN_VALUE + ", " + MAX_VALUE + "].");
-            return false;
-        }
-        return true;
-    }
-
-    public int getCurrentNumber() {
+    public int getCurrNumber() {
         return numbers[currAttempt - 1];
     }
 
@@ -44,9 +36,17 @@ public class Player {
         return false;
     }
 
+    private boolean isValidNumber(int number) {
+        if ((number < MIN_VALUE) || (number > MAX_VALUE)) {
+            System.out.println("Число должно входить в отрезок [" + MIN_VALUE + ", " + MAX_VALUE + "].");
+            return false;
+        }
+        return true;
+    }
+
     public void clear() {
+        Arrays.fill(numbers, 0, currAttempt, 0);
         currAttempt = 0;
-        Arrays.fill(getEnteredNumbers(), 0);
     }
 
     public int[] getEnteredNumbers() {
