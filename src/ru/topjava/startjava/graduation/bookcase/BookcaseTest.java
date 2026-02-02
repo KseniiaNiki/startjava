@@ -1,40 +1,23 @@
 package ru.topjava.startjava.graduation.bookcase;
 
+import java.time.Year;
 import java.util.Scanner;
 
 public class BookcaseTest {
+    private static final int MIN_YEAR = 1800;
+
     public static void main(String[] args) throws InterruptedException {
         Scanner scanner = new Scanner(System.in);
         Bookcase bookcase = new Bookcase();
-        int answer;
         sayHello();
-        boolean isProgramOver = false;
+        int answer;
 
-        while (!isProgramOver) {
+        while (true) {
             printMenu();
             answer = readValue(scanner);
-            switch (answer) {
-                case 1:
-                    bookcase.addBook(scanner);
-                    break;
-                case 2:
-                    System.out.print("Введите название книги, которую хотите найти: ");
-                    String titleToFind = scanner.nextLine();
-                    bookcase.findBook(titleToFind);
-                    break;
-                case 3:
-                    System.out.print("Введите название книги, которую хотите удалить: ");
-                    String titleToDelete = scanner.nextLine();
-                    bookcase.removeBook(titleToDelete);
-                    break;
-                case 4:
-                    bookcase.clearBookcase();
-                    break;
-                case 5:
-                    isProgramOver = true;
-                    continue;
-            }
+            if (answer == 5) break;
 
+            chooseOperation(answer, bookcase, scanner);
             System.out.println("Для продолжения работы нажмите клавишу <Enter>");
             scanner.nextLine();
             if (bookcase.getBooksAmount() > 0) {
@@ -45,7 +28,55 @@ public class BookcaseTest {
         }
     }
 
-    public static void sayHello() throws InterruptedException {
+    private static String getValidAuthor(Scanner scanner) {
+        System.out.print("Введите ФИО автора книги: ");
+        String author = scanner.nextLine();
+        boolean isValidAuthor = false;
+        while (!isValidAuthor) {
+            if (author.isBlank()) {
+                System.out.print("Ошибка: неверный формат! Повторите ввод: ");
+                author = scanner.nextLine();
+                continue;
+            }
+            isValidAuthor = true;
+        }
+        return author;
+    }
+
+    private static String getValidTitle(Scanner scanner) {
+        System.out.print("Введите название книги: ");
+        String title = scanner.nextLine();
+        boolean isValidTitle = false;
+        while (!isValidTitle) {
+            if (title.isBlank()) {
+                System.out.print("Ошибка: неверный формат! Повторите ввод: ");
+                title = scanner.nextLine();
+                continue;
+            }
+            isValidTitle = true;
+        }
+        return title;
+    }
+
+    private static Year getValidYear(Scanner scanner) {
+        System.out.print("Введите год издания книги: ");
+        int publishedYear = scanner.nextInt();
+        scanner.nextLine();
+        boolean isValidYear = false;
+        while (!isValidYear) {
+            int currYear = Year.now().getValue();
+            if (publishedYear < MIN_YEAR || publishedYear > currYear) {
+                System.out.print("Ошибка: год издания должен быть между 1800 и текущим! Повторите ввод: ");
+                publishedYear = scanner.nextInt();
+                scanner.nextLine();
+                continue;
+            }
+            isValidYear = true;
+        }
+        return Year.of(publishedYear);
+    }
+
+    private static void sayHello() throws InterruptedException {
         String greeting = "Добро пожаловать в Книжный шкаф!";
         String[] words = greeting.split(" ");
         for (String word : words) {
@@ -60,11 +91,11 @@ public class BookcaseTest {
         showEmptyBookcase();
     }
 
-    public static void showEmptyBookcase() {
+    private static void showEmptyBookcase() {
         System.out.println("Шкаф пуст. Вы можете добавить в него первую книгу");
     }
 
-    public static void printMenu() {
+    private static void printMenu() {
         String menu = """
                 1. Добавить книгу
                 2. Найти книгу
@@ -75,14 +106,7 @@ public class BookcaseTest {
         System.out.println(menu);
     }
 
-    public static void printInfo(Bookcase bookcase) {
-        System.out.println("В шкафу книг - " + bookcase.getBooksAmount() +
-                ", свободно полок - " + bookcase.getFreeShelves());
-
-        bookcase.getAllBooks();
-    }
-
-    public static int readValue(Scanner scanner) {
+    private static int readValue(Scanner scanner) {
         while (true) {
             if (!scanner.hasNextInt()) {
                 System.out.println("Ошибка: Неверное значение меню. Введите число!");
@@ -97,5 +121,36 @@ public class BookcaseTest {
             }
             return value;
         }
+    }
+
+    private static void chooseOperation(int answer, Bookcase bookcase, Scanner scanner) {
+        switch (answer) {
+            case 1:
+                String author = getValidAuthor(scanner);
+                String title = getValidTitle(scanner);
+                Year publishedYear = getValidYear(scanner);
+                bookcase.addBook(author, title, publishedYear);
+                break;
+            case 2:
+                System.out.print("Введите название книги, которую хотите найти: ");
+                String titleToFind = scanner.nextLine();
+                bookcase.findBook(titleToFind);
+                break;
+            case 3:
+                System.out.print("Введите название книги, которую хотите удалить: ");
+                String titleToDelete = scanner.nextLine();
+                bookcase.removeBook(titleToDelete);
+                break;
+            case 4:
+                bookcase.clearBookcase();
+                break;
+        }
+    }
+
+    private static void printInfo(Bookcase bookcase) {
+        System.out.println("В шкафу книг - " + bookcase.getBooksAmount() +
+                ", свободно полок - " + bookcase.getFreeShelves());
+
+        bookcase.getAllBooks();
     }
 }
