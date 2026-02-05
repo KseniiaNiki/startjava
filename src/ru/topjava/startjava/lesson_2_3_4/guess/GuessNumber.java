@@ -26,12 +26,16 @@ public class GuessNumber {
                 Угадайте целое число в отрезке [%d, %d]:
                 """, Player.MIN_VALUE, Player.MAX_VALUE);
         while (true) {
-            if (makeMove(playerOne, scanner) || makeMove(playerTwo, scanner) ||
-                    !hasAttemptsLeft(playerTwo)) {
+            if (isGameOver(scanner)) {
                 endGame();
                 return;
             }
         }
+    }
+
+    private boolean isGameOver(Scanner scanner) {
+        return makeMove(playerOne, scanner) || makeMove(playerTwo, scanner) ||
+                !hasAttemptsLeft(playerTwo);
     }
 
     private boolean makeMove(Player player, Scanner scanner) {
