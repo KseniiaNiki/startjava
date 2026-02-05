@@ -151,6 +151,29 @@ public class BookcaseTest {
         System.out.println("В шкафу книг - " + bookcase.getBooksAmount() +
                 ", свободно полок - " + bookcase.getFreeShelves());
 
-        bookcase.getAllBooks();
+        showBookcase(bookcase);
+    }
+
+    private static void showBookcase(Bookcase bookcase) {
+        int maxWidth = getMaxWidth(bookcase);
+        String separator = "-".repeat(maxWidth);
+        for (int i = 0; i < bookcase.getBooksAmount(); i++) {
+            String text = bookcase.getAllBooks()[i].toString();
+            int space = maxWidth - text.length();
+            String padding = " ".repeat(space);
+            System.out.println("|" + text + padding + "|");
+            System.out.println("|" + separator + "|");
+        }
+    }
+
+    private static int getMaxWidth(Bookcase bookcase) {
+        int max = 0;
+        for (int i = 0; i < bookcase.getBooksAmount(); i++) {
+            int length = bookcase.getAllBooks()[i].toString().length();
+            if (length > max) {
+                max = length;
+            }
+        }
+        return max;
     }
 }

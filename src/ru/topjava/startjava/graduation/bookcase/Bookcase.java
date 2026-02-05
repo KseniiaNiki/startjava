@@ -17,6 +17,10 @@ public class Bookcase {
         return freeShelves;
     }
 
+    public Book[] getAllBooks() {
+        return books;
+    }
+
     public void addBook(String author, String title, Year publishedYear) {
         if (booksAmount < books.length) {
             System.out.println("Книга успешно добавлена в Книжный шкаф!\n");
@@ -26,29 +30,6 @@ public class Bookcase {
         } else {
             System.out.println("Книга не может быть сохранена(в шкафу закончилось место)!\n");
         }
-    }
-
-    public void getAllBooks() {
-        int maxWidth = getMaxWidth();
-        String separator = "-".repeat(maxWidth);
-        for (int i = 0; i < booksAmount; i++) {
-            String text = books[i].toString();
-            int space = maxWidth - text.length();
-            String padding = " ".repeat(space);
-            System.out.println("|" + text + padding + "|");
-            System.out.println("|" + separator + "|");
-        }
-    }
-
-    private int getMaxWidth() {
-        int max = 0;
-        for (int i = 0; i < booksAmount; i++) {
-            int length = books[i].toString().length();
-            if (length > max) {
-                max = length;
-            }
-        }
-        return max;
     }
 
     public void findBook(String title) {
