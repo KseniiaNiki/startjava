@@ -38,7 +38,9 @@ public class Player {
 
     private boolean isValidNumber(int number) {
         if ((number < MIN_VALUE) || (number > MAX_VALUE)) {
-            System.out.println("Число должно входить в отрезок [" + MIN_VALUE + ", " + MAX_VALUE + "].");
+            System.out.printf("""
+                    Число должно входить в отрезок [%d, %d].
+                    """, MIN_VALUE, MAX_VALUE);
             return false;
         }
         return true;

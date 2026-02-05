@@ -22,9 +22,9 @@ public class GuessNumber {
     public void start() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Игра началась! У каждого игрока по " + Player.ATTEMPTS + " попыток");
-        System.out.println("Угадайте целое число в отрезке [" +
-                Player.MIN_VALUE + ", " +
-                Player.MAX_VALUE + "]: ");
+        System.out.printf("""
+                Угадайте целое число в отрезке [%d, %d]:
+                """, Player.MIN_VALUE, Player.MAX_VALUE);
         while (true) {
             if (makeMove(playerOne, scanner) || makeMove(playerTwo, scanner) ||
                     !hasAttemptsLeft(playerTwo)) {
@@ -38,7 +38,7 @@ public class GuessNumber {
         printInfoAboutAttempts(player);
         inputNumber(scanner, player);
 
-        if (isGuessedNumber(player, secretNumber)) {
+        if (isGuessedNumber(player)) {
             return true;
         }
 
@@ -61,11 +61,12 @@ public class GuessNumber {
         }
     }
 
-    private boolean isGuessedNumber(Player player, int secretNumber) {
+    private boolean isGuessedNumber(Player player) {
         int playerCurrNumber = player.getCurrNumber();
         if (playerCurrNumber == secretNumber) {
-            System.out.println(player.getName() + " угадал число " + playerCurrNumber +
-                    " с " + (player.getCurrAttempt()) + "-й попытки!");
+            System.out.printf("""
+                    %s угадал число %d с %d-й попытки!
+                    """, player.getName(), playerCurrNumber, player.getCurrAttempt());
             return true;
         }
         System.out.println("Ваше число " + ((playerCurrNumber > secretNumber)
@@ -74,7 +75,7 @@ public class GuessNumber {
         return false;
     }
 
-    public boolean hasAttemptsLeft(Player player) {
+    private boolean hasAttemptsLeft(Player player) {
         return player.getCurrAttempt() < Player.ATTEMPTS;
     }
 
