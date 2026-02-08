@@ -26,14 +26,14 @@ public class GuessNumber {
                 Угадайте целое число в отрезке [%d, %d]:
                 """, Player.MIN_VALUE, Player.MAX_VALUE);
         while (true) {
-            if (isGameOver(scanner)) {
+            if (isGameFinished(scanner)) {
                 endGame();
                 return;
             }
         }
     }
 
-    private boolean isGameOver(Scanner scanner) {
+    private boolean isGameFinished(Scanner scanner) {
         return makeMove(playerOne, scanner) || makeMove(playerTwo, scanner) ||
                 !hasAttemptsLeft(playerTwo);
     }
