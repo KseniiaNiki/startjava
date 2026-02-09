@@ -21,38 +21,33 @@ public class Bookcase {
         return books;
     }
 
-    public void addBook(String author, String title, Year publishedYear) {
+    public boolean addBook(String author, String title, Year publishedYear) {
         if (booksAmount < books.length) {
-            System.out.println("Книга успешно добавлена в Книжный шкаф!\n");
             Book book = new Book(author, title, publishedYear);
             books[booksAmount++] = book;
             freeShelves--;
+            return true;
         } else {
-            System.out.println("Книга не может быть сохранена(в шкафу закончилось место)!\n");
+            return false;
         }
     }
 
-    public void findBook(String title) {
-        if (isExistByTitle(title)) {
-            int bookIndex = getIndex(title);
-            System.out.println("Результат поиска: " + books[bookIndex] + "\n");
-        } else {
-            System.out.println("Книга " + title + " не найдена!\n");
-        }
+    public boolean findBook(String title) {
+        return isExistByTitle(title);
     }
 
-    public void removeBook(String title) {
+    public boolean removeBook(String title) {
         if (isExistByTitle(title)) {
             int bookIndex = getIndex(title);
-            System.out.println("Книга {" + books[bookIndex].toString() + "} удалена!\n");
             if (bookIndex != booksAmount - 1) {
                 System.arraycopy(books, bookIndex + 1, books, bookIndex, books.length - 1);
             }
             books[booksAmount - 1] = null;
             booksAmount--;
             freeShelves++;
+            return true;
         } else {
-            System.out.println("Книга " + title + " не удалена!\n");
+            return false;
         }
     }
 
@@ -65,7 +60,7 @@ public class Bookcase {
         return false;
     }
 
-    private int getIndex(String title) {
+    public int getIndex(String title) {
         for (int i = 0; i < booksAmount; i++) {
             if (title.equalsIgnoreCase(books[i].getTitle())) {
                 return i;
@@ -78,6 +73,5 @@ public class Bookcase {
         Arrays.fill(books, 0, booksAmount, null);
         booksAmount = 0;
         freeShelves = books.length;
-        System.out.println("Все книги удалены!\n");
     }
 }

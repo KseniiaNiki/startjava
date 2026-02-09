@@ -4,6 +4,8 @@ import java.time.Year;
 import java.util.Scanner;
 
 public class BookcaseTest {
+    private static final int MIN_CHOICE = 1;
+    private static final int MAX_CHOICE = 5;
     private static final int MIN_YEAR = 1800;
 
     public static void main(String[] args) throws InterruptedException {
@@ -14,8 +16,8 @@ public class BookcaseTest {
 
         while (true) {
             printMenu();
-            answer = readValue(scanner);
-            if (answer == 5) break;
+            answer = inputValue(scanner);
+            if (answer == MAX_CHOICE) break;
 
             chooseOperation(answer, bookcase, scanner);
             System.out.println("Для продолжения работы нажмите клавишу <Enter>");
@@ -26,54 +28,6 @@ public class BookcaseTest {
                 showEmptyBookcase();
             }
         }
-    }
-
-    private static String getValidAuthor(Scanner scanner) {
-        System.out.print("Введите ФИО автора книги: ");
-        String author = scanner.nextLine();
-        boolean isValidAuthor = false;
-        while (!isValidAuthor) {
-            if (author.isBlank()) {
-                System.out.print("Ошибка: неверный формат! Повторите ввод: ");
-                author = scanner.nextLine();
-                continue;
-            }
-            isValidAuthor = true;
-        }
-        return author;
-    }
-
-    private static String getValidTitle(Scanner scanner) {
-        System.out.print("Введите название книги: ");
-        String title = scanner.nextLine();
-        boolean isValidTitle = false;
-        while (!isValidTitle) {
-            if (title.isBlank()) {
-                System.out.print("Ошибка: неверный формат! Повторите ввод: ");
-                title = scanner.nextLine();
-                continue;
-            }
-            isValidTitle = true;
-        }
-        return title;
-    }
-
-    private static Year getValidYear(Scanner scanner) {
-        System.out.print("Введите год издания книги: ");
-        int publishedYear = scanner.nextInt();
-        scanner.nextLine();
-        boolean isValidYear = false;
-        while (!isValidYear) {
-            int currYear = Year.now().getValue();
-            if (publishedYear < MIN_YEAR || publishedYear > currYear) {
-                System.out.print("Ошибка: год издания должен быть между 1800 и текущим! Повторите ввод: ");
-                publishedYear = scanner.nextInt();
-                scanner.nextLine();
-                continue;
-            }
-            isValidYear = true;
-        }
-        return Year.of(publishedYear);
     }
 
     private static void sayHello() throws InterruptedException {
@@ -106,7 +60,7 @@ public class BookcaseTest {
         System.out.println(menu);
     }
 
-    private static int readValue(Scanner scanner) {
+    private static int inputValue(Scanner scanner) {
         while (true) {
             if (!scanner.hasNextInt()) {
                 System.out.println("Ошибка: Неверное значение меню. Введите число!");
@@ -115,7 +69,7 @@ public class BookcaseTest {
             }
             int value = scanner.nextInt();
             scanner.nextLine();
-            if (value < 1 || value > 5) {
+            if (value < MIN_CHOICE || value > MAX_CHOICE) {
                 System.out.println("Ошибка: Неверное значение меню. Допустимые значения: 1-5");
                 continue;
             }
@@ -126,25 +80,103 @@ public class BookcaseTest {
     private static void chooseOperation(int answer, Bookcase bookcase, Scanner scanner) {
         switch (answer) {
             case 1:
-                String author = getValidAuthor(scanner);
-                String title = getValidTitle(scanner);
-                Year publishedYear = getValidYear(scanner);
-                bookcase.addBook(author, title, publishedYear);
+                executeBookAddition(bookcase, scanner);
                 break;
             case 2:
-                System.out.print("Введите название книги, которую хотите найти: ");
-                String titleToFind = scanner.nextLine();
-                bookcase.findBook(titleToFind);
+                executeBookFinding(bookcase, scanner);
                 break;
             case 3:
-                System.out.print("Введите название книги, которую хотите удалить: ");
-                String titleToDelete = scanner.nextLine();
-                bookcase.removeBook(titleToDelete);
+                executeBookRemoval(bookcase, scanner);
                 break;
             case 4:
-                bookcase.clearBookcase();
+                executeBookcaseClearing(bookcase);
                 break;
         }
+    }
+
+    private static void executeBookAddition(Bookcase bookcase, Scanner scanner) {
+        String author = inputValidAuthor(scanner);
+        String title = inputValidTitle(scanner);
+        Year publishedYear = inputValidYear(scanner);
+        if (!bookcase.addBook(author, title, publishedYear)) {
+            System.out.println("Книга не может быть сохранена(в шкафу закончилось место)!\n");
+        } else {
+            System.out.println("Книга " + title + " успешно добавлена в Книжный шкаф!\n");
+        }
+    }
+
+    private static String inputValidAuthor(Scanner scanner) {
+        System.out.print("Введите ФИО автора книги: ");
+        String author = scanner.nextLine();
+        boolean isValidAuthor = false;
+        while (!isValidAuthor) {
+            if (author.isBlank()) {
+                System.out.print("Ошибка: неверный формат! Повторите ввод: ");
+                author = scanner.nextLine();
+                continue;
+            }
+            isValidAuthor = true;
+        }
+        return author;
+    }
+
+    private static String inputValidTitle(Scanner scanner) {
+        System.out.print("Введите название книги: ");
+        String title = scanner.nextLine();
+        boolean isValidTitle = false;
+        while (!isValidTitle) {
+            if (title.isBlank()) {
+                System.out.print("Ошибка: неверный формат! Повторите ввод: ");
+                title = scanner.nextLine();
+                continue;
+            }
+            isValidTitle = true;
+        }
+        return title;
+    }
+
+    private static Year inputValidYear(Scanner scanner) {
+        System.out.print("Введите год издания книги: ");
+        int publishedYear = scanner.nextInt();
+        scanner.nextLine();
+        boolean isValidYear = false;
+        while (!isValidYear) {
+            int currYear = Year.now().getValue();
+            if (publishedYear < MIN_YEAR || publishedYear > currYear) {
+                System.out.print("Ошибка: год издания должен быть между 1800 и текущим! Повторите ввод: ");
+                publishedYear = scanner.nextInt();
+                scanner.nextLine();
+                continue;
+            }
+            isValidYear = true;
+        }
+        return Year.of(publishedYear);
+    }
+
+    private static void executeBookFinding(Bookcase bookcase, Scanner scanner) {
+        System.out.print("Введите название книги, которую хотите найти: ");
+        String titleToFind = scanner.nextLine();
+        if (!bookcase.findBook(titleToFind)) {
+            System.out.println("Книга " + titleToFind + " не найдена!\n");
+        } else {
+            int bookIndex = bookcase.getIndex(titleToFind);
+            System.out.println("Результат поиска: " + bookcase.getAllBooks()[bookIndex] + "\n");
+        }
+    }
+
+    private static void executeBookRemoval(Bookcase bookcase, Scanner scanner) {
+        System.out.print("Введите название книги, которую хотите удалить: ");
+        String titleToDelete = scanner.nextLine();
+        if (!bookcase.removeBook(titleToDelete)) {
+            System.out.println("Книга " + titleToDelete + " не удалена!\n");
+        } else {
+            System.out.println("Книга " + titleToDelete + " удалена!\n");
+        }
+    }
+
+    private static void executeBookcaseClearing(Bookcase bookcase) {
+        bookcase.clearBookcase();
+        System.out.println("Все книги удалены!\n");
     }
 
     private static void printInfo(Bookcase bookcase) {
