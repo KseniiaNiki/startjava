@@ -12,16 +12,16 @@ public class BookcaseTest {
         Scanner scanner = new Scanner(System.in);
         Bookcase bookcase = new Bookcase();
         sayHello();
+        showEmptyBookcase();
         int answer;
 
         while (true) {
             printMenu();
-            answer = inputValue(scanner);
+            answer = inputMenuChoice(scanner);
             if (answer == MAX_CHOICE) break;
 
             chooseOperation(answer, bookcase, scanner);
-            System.out.println("Для продолжения работы нажмите клавишу <Enter>");
-            scanner.nextLine();
+            continueWork(scanner);
             if (bookcase.getBooksAmount() > 0) {
                 printInfo(bookcase);
             } else {
@@ -41,8 +41,6 @@ public class BookcaseTest {
             System.out.print(" ");
         }
         System.out.println();
-
-        showEmptyBookcase();
     }
 
     private static void showEmptyBookcase() {
@@ -50,17 +48,16 @@ public class BookcaseTest {
     }
 
     private static void printMenu() {
-        String menu = """
+        System.out.println("""
                 1. Добавить книгу
                 2. Найти книгу
                 3. Удалить книгу
                 4. Очистить шкаф
                 5. Завершить работу
-                """;
-        System.out.println(menu);
+                """);
     }
 
-    private static int inputValue(Scanner scanner) {
+    private static int inputMenuChoice(Scanner scanner) {
         while (true) {
             if (!scanner.hasNextInt()) {
                 System.out.println("Ошибка: Неверное значение меню. Введите число!");
@@ -70,7 +67,8 @@ public class BookcaseTest {
             int value = scanner.nextInt();
             scanner.nextLine();
             if (value < MIN_CHOICE || value > MAX_CHOICE) {
-                System.out.println("Ошибка: Неверное значение меню. Допустимые значения: 1-5");
+                System.out.println("Ошибка: Неверное значение меню. Допустимые значения: " +
+                        MIN_CHOICE + "-" + MAX_CHOICE);
                 continue;
             }
             return value;
@@ -80,32 +78,32 @@ public class BookcaseTest {
     private static void chooseOperation(int answer, Bookcase bookcase, Scanner scanner) {
         switch (answer) {
             case 1:
-                executeBookAddition(bookcase, scanner);
+                doBookAddition(bookcase, scanner);
                 break;
             case 2:
-                executeBookFinding(bookcase, scanner);
+                doBookFinding(bookcase, scanner);
                 break;
             case 3:
-                executeBookRemoval(bookcase, scanner);
+                doBookRemoval(bookcase, scanner);
                 break;
             case 4:
-                executeBookcaseClearing(bookcase);
+                doBookcaseClearing(bookcase);
                 break;
         }
     }
 
-    private static void executeBookAddition(Bookcase bookcase, Scanner scanner) {
-        String author = inputValidAuthor(scanner);
-        String title = inputValidTitle(scanner);
-        Year publishedYear = inputValidYear(scanner);
-        if (!bookcase.addBook(author, title, publishedYear)) {
+    private static void doBookAddition(Bookcase bookcase, Scanner scanner) {
+        String author = inputAuthor(scanner);
+        String title = inputTitle(scanner);
+        Year publishedYear = inputYear(scanner);
+        if (!bookcase.add(author, title, publishedYear)) {
             System.out.println("Книга не может быть сохранена(в шкафу закончилось место)!\n");
         } else {
             System.out.println("Книга " + title + " успешно добавлена в Книжный шкаф!\n");
         }
     }
 
-    private static String inputValidAuthor(Scanner scanner) {
+    private static String inputAuthor(Scanner scanner) {
         System.out.print("Введите ФИО автора книги: ");
         String author = scanner.nextLine();
         boolean isValidAuthor = false;
@@ -120,7 +118,7 @@ public class BookcaseTest {
         return author;
     }
 
-    private static String inputValidTitle(Scanner scanner) {
+    private static String inputTitle(Scanner scanner) {
         System.out.print("Введите название книги: ");
         String title = scanner.nextLine();
         boolean isValidTitle = false;
@@ -135,7 +133,7 @@ public class BookcaseTest {
         return title;
     }
 
-    private static Year inputValidYear(Scanner scanner) {
+    private static Year inputYear(Scanner scanner) {
         System.out.print("Введите год издания книги: ");
         int publishedYear = scanner.nextInt();
         scanner.nextLine();
@@ -153,30 +151,34 @@ public class BookcaseTest {
         return Year.of(publishedYear);
     }
 
-    private static void executeBookFinding(Bookcase bookcase, Scanner scanner) {
+    private static void doBookFinding(Bookcase bookcase, Scanner scanner) {
         System.out.print("Введите название книги, которую хотите найти: ");
         String titleToFind = scanner.nextLine();
-        if (!bookcase.findBook(titleToFind)) {
+        if (bookcase.find(titleToFind) == null) {
             System.out.println("Книга " + titleToFind + " не найдена!\n");
         } else {
-            int bookIndex = bookcase.getIndex(titleToFind);
-            System.out.println("Результат поиска: " + bookcase.getAllBooks()[bookIndex] + "\n");
+            System.out.println("Результат поиска: " + bookcase.find(titleToFind) + "\n");
         }
     }
 
-    private static void executeBookRemoval(Bookcase bookcase, Scanner scanner) {
+    private static void doBookRemoval(Bookcase bookcase, Scanner scanner) {
         System.out.print("Введите название книги, которую хотите удалить: ");
         String titleToDelete = scanner.nextLine();
-        if (!bookcase.removeBook(titleToDelete)) {
+        if (!bookcase.remove(titleToDelete)) {
             System.out.println("Книга " + titleToDelete + " не удалена!\n");
         } else {
             System.out.println("Книга " + titleToDelete + " удалена!\n");
         }
     }
 
-    private static void executeBookcaseClearing(Bookcase bookcase) {
+    private static void doBookcaseClearing(Bookcase bookcase) {
         bookcase.clearBookcase();
         System.out.println("Все книги удалены!\n");
+    }
+
+    private static void continueWork(Scanner scanner) {
+        System.out.println("Для продолжения работы нажмите клавишу <Enter>");
+        scanner.nextLine();
     }
 
     private static void printInfo(Bookcase bookcase) {

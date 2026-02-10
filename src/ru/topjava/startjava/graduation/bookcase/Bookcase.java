@@ -4,10 +4,10 @@ import java.time.Year;
 import java.util.Arrays;
 
 public class Bookcase {
-    private static final int MAX_BOOK_AMOUNT = 10;
+    private static final int BOOKS_LIMIT = 10;
+    private final Book[] books = new Book[BOOKS_LIMIT];
     private int booksAmount;
-    private final Book[] books = new Book[MAX_BOOK_AMOUNT];
-    private int freeShelves = books.length;
+    private int freeShelves = BOOKS_LIMIT;
 
     public int getBooksAmount() {
         return booksAmount;
@@ -21,34 +21,36 @@ public class Bookcase {
         return books;
     }
 
-    public boolean addBook(String author, String title, Year publishedYear) {
-        if (booksAmount < books.length) {
+    public boolean add(String author, String title, Year publishedYear) {
+        if (booksAmount < BOOKS_LIMIT) {
             Book book = new Book(author, title, publishedYear);
             books[booksAmount++] = book;
             freeShelves--;
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
-    public boolean findBook(String title) {
-        return isExistByTitle(title);
+    public Book find(String title) {
+        if (isExistByTitle(title)) {
+            int bookIndex = getIndex(title);
+            return books[bookIndex];
+        }
+        return null;
     }
 
-    public boolean removeBook(String title) {
+    public boolean remove(String title) {
         if (isExistByTitle(title)) {
             int bookIndex = getIndex(title);
             if (bookIndex != booksAmount - 1) {
-                System.arraycopy(books, bookIndex + 1, books, bookIndex, books.length - 1);
+                System.arraycopy(books, bookIndex + 1, books, bookIndex, booksAmount - (bookIndex + 1));
             }
             books[booksAmount - 1] = null;
             booksAmount--;
             freeShelves++;
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     private boolean isExistByTitle(String title) {
@@ -72,6 +74,6 @@ public class Bookcase {
     public void clearBookcase() {
         Arrays.fill(books, 0, booksAmount, null);
         booksAmount = 0;
-        freeShelves = books.length;
+        freeShelves = BOOKS_LIMIT;
     }
 }
