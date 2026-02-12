@@ -1,6 +1,5 @@
 package ru.topjava.startjava.graduation.bookcase;
 
-import java.time.Year;
 import java.util.Arrays;
 
 public class Bookcase {
@@ -18,12 +17,11 @@ public class Bookcase {
     }
 
     public Book[] getAllBooks() {
-        return books;
+        return Arrays.copyOf(books, booksAmount);
     }
 
-    public boolean add(String author, String title, Year publishedYear) {
+    public boolean add(Book book) {
         if (booksAmount < BOOKS_LIMIT) {
-            Book book = new Book(author, title, publishedYear);
             books[booksAmount++] = book;
             freeShelves--;
             return true;
@@ -32,37 +30,26 @@ public class Bookcase {
     }
 
     public Book find(String title) {
-        if (isExistByTitle(title)) {
-            int bookIndex = getIndex(title);
-            return books[bookIndex];
+        if (findIndex(title) < 0) {
+            return null;
         }
-        return null;
+        int bookIndex = findIndex(title);
+        return books[bookIndex];
     }
 
     public boolean remove(String title) {
-        if (isExistByTitle(title)) {
-            int bookIndex = getIndex(title);
-            if (bookIndex != booksAmount - 1) {
-                System.arraycopy(books, bookIndex + 1, books, bookIndex, booksAmount - (bookIndex + 1));
-            }
-            books[booksAmount - 1] = null;
-            booksAmount--;
-            freeShelves++;
-            return true;
+        if (findIndex(title) < 0) {
+            return false;
         }
-        return false;
+        int bookIndex = findIndex(title);
+        booksAmount--;
+        System.arraycopy(books, bookIndex + 1, books, bookIndex, booksAmount - bookIndex);
+        books[booksAmount] = null;
+        freeShelves++;
+        return true;
     }
 
-    private boolean isExistByTitle(String title) {
-        for (int i = 0; i < booksAmount; i++) {
-            if (title.equalsIgnoreCase(books[i].getTitle())) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public int getIndex(String title) {
+    public int findIndex(String title) {
         for (int i = 0; i < booksAmount; i++) {
             if (title.equalsIgnoreCase(books[i].getTitle())) {
                 return i;
@@ -71,7 +58,7 @@ public class Bookcase {
         return -1;
     }
 
-    public void clearBookcase() {
+    public void clear() {
         Arrays.fill(books, 0, booksAmount, null);
         booksAmount = 0;
         freeShelves = BOOKS_LIMIT;
