@@ -12,16 +12,15 @@ public class BookcaseTest {
         Scanner scanner = new Scanner(System.in);
         Bookcase bookcase = new Bookcase();
         sayHello();
-        printInfo(bookcase);
 
         while (true) {
+            printInfo(bookcase);
             printMenu();
             int answer = selectMenuItem(scanner);
             if (answer == MAX_ITEM) break;
 
             doOperation(answer, bookcase, scanner);
             waitEnter(scanner);
-            printInfo(bookcase);
         }
     }
 
@@ -36,6 +35,29 @@ public class BookcaseTest {
             System.out.print(" ");
         }
         System.out.println();
+    }
+
+    private static void printInfo(Bookcase bookcase) {
+        if (bookcase.getBooksAmount() == 0) {
+            System.out.println("Шкаф пуст. Вы можете добавить в него первую книгу");
+        } else {
+            System.out.println("В шкафу книг - " + bookcase.getBooksAmount() +
+                    ", свободно полок - " + bookcase.getFreeShelves());
+
+            showBookcase(bookcase);
+        }
+    }
+
+    private static void showBookcase(Bookcase bookcase) {
+        int maxShelfLength = bookcase.getMaxShelfLength();
+        String separator = "-".repeat(maxShelfLength);
+        for (Book b : bookcase.getAllBooks()) {
+            String text = b.toString();
+            int space = maxShelfLength - text.length();
+            String padding = " ".repeat(space);
+            System.out.println("|" + text + padding + "|");
+            System.out.println("|" + separator + "|");
+        }
     }
 
     private static void printMenu() {
@@ -86,6 +108,7 @@ public class BookcaseTest {
             System.out.println("Книга не может быть сохранена(в шкафу закончилось место)!\n");
         } else {
             System.out.println("Книга " + title + " успешно добавлена в Книжный шкаф!\n");
+            bookcase.getMaxLength();
         }
     }
 
@@ -118,7 +141,7 @@ public class BookcaseTest {
 
     private static void findBook(Bookcase bookcase, Scanner scanner) {
         System.out.print("Введите название книги, которую хотите найти: ");
-        String titleToFind = scanner.nextLine();
+        String titleToFind = inputLine(scanner);
         Book foundBook = bookcase.find(titleToFind);
         if (foundBook == null) {
             System.out.println("Книга " + titleToFind + " не найдена!\n");
@@ -129,11 +152,12 @@ public class BookcaseTest {
 
     private static void removeBook(Bookcase bookcase, Scanner scanner) {
         System.out.print("Введите название книги, которую хотите удалить: ");
-        String deletedTitle = scanner.nextLine();
+        String deletedTitle = inputLine(scanner);
         if (!bookcase.remove(deletedTitle)) {
             System.out.println("Книга " + deletedTitle + " не удалена!\n");
         } else {
             System.out.println("Книга " + deletedTitle + " удалена!\n");
+            bookcase.getMaxLength();
         }
     }
 
@@ -146,60 +170,5 @@ public class BookcaseTest {
         do {
             System.out.println("Для продолжения работы нажмите клавишу <Enter>");
         } while (!scanner.nextLine().isEmpty());
-    }
-
-    private static void printInfo(Bookcase bookcase) {
-        if (bookcase.getBooksAmount() == 0) {
-            showEmptyBookcase();
-        } else {
-            System.out.println("В шкафу книг - " + bookcase.getBooksAmount() +
-                    ", свободно полок - " + bookcase.getFreeShelves());
-
-            showBookcase(bookcase);
-        }
-    }
-
-    private static void showEmptyBookcase() {
-        System.out.println("Шкаф пуст. Вы можете добавить в него первую книгу");
-    }
-
-    private static void showBookcase(Bookcase bookcase) {
-        int maxWidth = getMaxWidth(bookcase);
-        String separator = "-".repeat(maxWidth);
-        for (int i = 0; i < bookcase.getBooksAmount(); i++) {
-            String text = bookcase.getAllBooks()[i].toString();
-            int space = maxWidth - text.length();
-            String padding = " ".repeat(space);
-            System.out.println("|" + text + padding + "|");
-            System.out.println("|" + separator + "|");
-        }
-    }
-
-//    private static void showBookcase(Bookcase bookcase) {
-//        int maxShelfLength;
-//        if (bookcase.add(book) || bookcase.remove(deletedTitle)) {
-//            maxShelfLength = bookcase.getMaxLength();
-//        } else {
-//            maxShelfLength = bookcase.getMaxShelfLength();
-//        }
-//        String separator = "-".repeat(maxShelfLength);
-//        for (Book b : bookcase.getAllBooks()) {
-//            String text = b.toString();
-//            int space = maxShelfLength - text.length();
-//            String padding = " ".repeat(space);
-//            System.out.println("|" + text + padding + "|");
-//            System.out.println("|" + separator + "|");
-//        }
-//    }
-
-    private static int getMaxWidth(Bookcase bookcase) {
-        int max = 0;
-        for (Book book : bookcase.getAllBooks()) {
-            int length = book.toString().length();
-            if (length > max) {
-                max = length;
-            }
-        }
-        return max;
     }
 }

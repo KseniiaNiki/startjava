@@ -7,7 +7,6 @@ public class Bookcase {
     private final Book[] books = new Book[BOOKS_LIMIT];
     private int booksAmount;
     private int freeShelves = BOOKS_LIMIT;
-//    private int maxShelfLength;
 
     public Book[] getAllBooks() {
         return Arrays.copyOf(books, booksAmount);
@@ -21,9 +20,23 @@ public class Bookcase {
         return freeShelves;
     }
 
-//    public int getMaxShelfLength() {
-//        return maxShelfLength;
-//    }
+    public int getMaxShelfLength() {
+        if (booksAmount == 1) {
+            return books[0].toString().length();
+        }
+        return getMaxLength();
+    }
+
+    public int getMaxLength() {
+        int max = 0;
+        for (Book book : getAllBooks()) {
+            int length = book.toString().length();
+            if (length > max) {
+                max = length;
+            }
+        }
+        return max;
+    }
 
     public boolean add(Book book) {
         if (booksAmount < BOOKS_LIMIT) {
@@ -42,15 +55,6 @@ public class Bookcase {
         return books[bookIndex];
     }
 
-    private int findIndex(String title) {
-        for (int i = 0; i < booksAmount; i++) {
-            if (title.equalsIgnoreCase(books[i].getTitle())) {
-                return i;
-            }
-        }
-        return -1;
-    }
-
     public boolean remove(String title) {
         int bookIndex = findIndex(title);
         if (bookIndex < 0) {
@@ -63,20 +67,18 @@ public class Bookcase {
         return true;
     }
 
-//    public int getMaxLength() {
-//        int max = 0;
-//        for (Book book : getAllBooks()) {
-//            int length = book.toString().length();
-//            if (length > max) {
-//                max = length;
-//            }
-//        }
-//        return max;
-//    }
-
     public void clear() {
         Arrays.fill(books, 0, booksAmount, null);
         booksAmount = 0;
         freeShelves = BOOKS_LIMIT;
+    }
+
+    private int findIndex(String title) {
+        for (int i = 0; i < booksAmount; i++) {
+            if (title.equalsIgnoreCase(books[i].getTitle())) {
+                return i;
+            }
+        }
+        return -1;
     }
 }
