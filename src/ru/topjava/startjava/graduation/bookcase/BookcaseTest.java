@@ -108,7 +108,6 @@ public class BookcaseTest {
             System.out.println("Книга не может быть сохранена(в шкафу закончилось место)!\n");
         } else {
             System.out.println("Книга " + title + " успешно добавлена в Книжный шкаф!\n");
-            bookcase.getMaxLength();
         }
     }
 
@@ -157,7 +156,6 @@ public class BookcaseTest {
             System.out.println("Книга " + deletedTitle + " не удалена!\n");
         } else {
             System.out.println("Книга " + deletedTitle + " удалена!\n");
-            bookcase.getMaxLength();
         }
     }
 

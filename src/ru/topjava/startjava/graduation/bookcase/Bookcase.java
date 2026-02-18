@@ -7,6 +7,7 @@ public class Bookcase {
     private final Book[] books = new Book[BOOKS_LIMIT];
     private int booksAmount;
     private int freeShelves = BOOKS_LIMIT;
+    private int maxShelfLength;
 
     public Book[] getAllBooks() {
         return Arrays.copyOf(books, booksAmount);
@@ -21,27 +22,14 @@ public class Bookcase {
     }
 
     public int getMaxShelfLength() {
-        if (booksAmount == 1) {
-            return books[0].toString().length();
-        }
-        return getMaxLength();
-    }
-
-    public int getMaxLength() {
-        int max = 0;
-        for (Book book : getAllBooks()) {
-            int length = book.toString().length();
-            if (length > max) {
-                max = length;
-            }
-        }
-        return max;
+        return maxShelfLength;
     }
 
     public boolean add(Book book) {
         if (booksAmount < BOOKS_LIMIT) {
             books[booksAmount++] = book;
             freeShelves--;
+            checkMaxShelfLength(book.toString().length());
             return true;
         }
         return false;
@@ -60,9 +48,11 @@ public class Bookcase {
         if (bookIndex < 0) {
             return false;
         }
+        final int deletedBookLength = books[bookIndex].toString().length();
         booksAmount--;
         System.arraycopy(books, bookIndex + 1, books, bookIndex, booksAmount - bookIndex);
         books[booksAmount] = null;
+        recalculateMaxShelfLength(deletedBookLength);
         freeShelves++;
         return true;
     }
@@ -73,6 +63,10 @@ public class Bookcase {
         freeShelves = BOOKS_LIMIT;
     }
 
+    private void checkMaxShelfLength(int bookLength) {
+        maxShelfLength = Math.max(bookLength, maxShelfLength);
+    }
+
     private int findIndex(String title) {
         for (int i = 0; i < booksAmount; i++) {
             if (title.equalsIgnoreCase(books[i].getTitle())) {
@@ -80,5 +74,18 @@ public class Bookcase {
             }
         }
         return -1;
+    }
+
+    private void recalculateMaxShelfLength(int bookLength) {
+        if (booksAmount > 0) {
+            if (bookLength == maxShelfLength) {
+                maxShelfLength = 0;
+                for (Book book : getAllBooks()) {
+                    checkMaxShelfLength(book.toString().length());
+                }
+            }
+        } else {
+            maxShelfLength = 0;
+        }
     }
 }
